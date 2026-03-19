@@ -1,122 +1,451 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Anuncios de Iglesia Buena Vista</title>
+    <title>IBV — Panel de Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .nav-btn:hover {
+            background-color: #4a6478;
+        }
+        .nav-btn.activo {
+            background-color: #4a6478;
+        }
+        #sidebar.w-16 .avatar-circle {
+            margin: 0 auto;
+        }
+</style>
 </head>
-<body class="bg-gray-100 min-h-screen p-8">
+<body class="min-h-screen flex" style="background-color: #1a2330;">
 
-    <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8">
-            Admin - Anuncios IBV
-        </h1>
-
-        <div class="bg-white rounded-xl shadow p-6 mb-8">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Nuevo anuncio</h2>
-            <div class="flex gap-3">
-                <input 
-                    id="textoAnuncio"
-                    type="text"
-                    placeholder="Ej. Reunion viernes 7pm"
-                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                <button
-                    id="btnEnviar"
-                    class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-                >
-                    Agregar
-                </button>    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="relative w-64 min-h-screen flex flex-col transition-all duration-300" style="background-color: #243040;">
+        
+        <!-- Logo -->
+        <div id="logo-header-container" class="p-6 border-b transition-all duration-300" style="border-color: #4a6478;">
+            <div class="logo-inner-flex flex items-center gap-3 overflow-hidden transition-all duration-300">
+                <img src="../static/logo.png" alt="IBV" class="w-10 h-10 rounded-full flex-shrink-0">
+                
+                <div class="sidebar-extra whitespace-nowrap transition-opacity duration-300">
+                    <h2 class="font-bold text-sm" style="color: #e8e0d0;">Iglesia Buena Vista</h2>
+                    <p class="text-xs" style="color: #8a9aa8;">Panel de Admin</p>
+                </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow p-6">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Anuncios actuales</h2>
-            <div id="listaAnuncios"></div>
-        </div>
-    </div>
-    <script>
-        const btnEnviar = document.getElementById("btnEnviar")
-        const inputNombre = document.getElementById("textoAnuncio")
+        <!-- Navegación -->
+        <nav class="flex-1 p-4">
+            <ul class="space-y-1">
+                <li>
+                    <button onclick="mostrarSeccion('dashboard')" id="nav-dashboard"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0; background-color: #4a6478;"> <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Dashboard</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('anuncios')" id="nav-anuncios"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Anuncios</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('miembros')" id="nav-miembros"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Miembros</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('celulas')" id="nav-celulas"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Células</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('asistencia')" id="nav-asistencia"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Asistencia</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('finanzas')" id="nav-finanzas"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Finanzas</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="mostrarSeccion('configuracion')" id="nav-configuracion"
+                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
+                        style="color: #e8e0d0;">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <span class="nav-texto sidebar-extra">Configuracion</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
 
-        // Cargar y mostrar anuncios
+        <!-- Usuario y cerrar sesión -->
+        <div class="p-4 border-t" style="border-color: #4a6478;">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="avatar-circle w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold min-w-[32px] flex-shrink-0"
+                    style="background-color: #4a6478; color: #e8e0d0;">
+                    A
+                </div>
+                <div class="sidebar-extra whitespace-nowrap transition-opacity duration-300">
+                    <p class="text-xs font-medium" style="color: #e8e0d0;" id="nombreUsuario">Admin</p>
+                    <p class="text-xs" style="color: #8a9aa8;" id="rolUsuario">super_admin</p>
+                </div>
+            </div>
+            <button onclick="cerrarSesion()"
+                class="w-full text-left px-4 py-2 rounded-xl text-sm transition hover:bg-[#4a2030]/80 flex items-center gap-3 overflow-hidden whitespace-nowrap"
+                style="color: #e8e0d0;">
+                <svg class="w-5 h-5 flex-shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span class="sidebar-extra">Cerrar sesión</span>
+            </button>
+        </div>
+        <button onclick="toggleSidebar()" 
+            class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center border transition-all hover:scale-110 z-50"
+            style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+            <svg id="icono-toggle" class="w-4 h-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="flex-1 p-8">
+
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold" style="color: #e8e0d0;" id="tituloSeccion">Dashboard</h1>
+            <p class="text-sm mt-1" style="color: #8a9aa8;" id="subtituloSeccion">Resumen general</p>
+        </div>
+
+        <!-- Secciones -->
+        <div id="seccion-dashboard">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-medium" style="color: #8a9aa8;">Total miembros</p>
+                            <p class="text-3xl font-bold mt-2" style="color: #e8e0d0;" id="totalMiembros">—</p>
+                        </div>
+                        <div class="p-2 rounded-lg" style="background-color: #4a6478; color: #e8e0d0;">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-medium" style="color: #8a9aa8;">Anuncios activos</p>
+                            <p class="text-3xl font-bold mt-2" style="color: #e8e0d0;" id="totalAnuncios">—</p>
+                        </div>
+                        <div class="p-2 rounded-lg" style="background-color: #4a6478; color: #e8e0d0;">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+                    <p class="text-sm font-medium" style="color: #8a9aa8;">Iglesia</p>
+                    <p class="text-xl font-bold mt-2 truncate" style="color: #e8e0d0;" id="nombreIglesia">—</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccion-anuncios" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <div class="flex gap-3 mb-6">
+                    <input id="textoAnuncio" type="text" placeholder="Nuevo anuncio..."
+                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                    <button id="btnEnviar"
+                        class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                        style="background-color: #4a6478; color: #e8e0d0;">
+                        Agregar
+                    </button>
+                </div>
+                <div id="listaAnuncios"></div>
+            </div>
+        </div>
+
+        <div id="seccion-miembros" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <p style="color: #8a9aa8;">Módulo de miembros — próximamente</p>
+            </div>
+        </div>
+
+        <div id="seccion-celulas" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <p style="color: #8a9aa8;">Módulo de células — próximamente</p>
+            </div>
+        </div>
+
+        <div id="seccion-asistencia" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <p style="color: #8a9aa8;">Módulo de asistencia — próximamente</p>
+            </div>
+        </div>
+
+        <div id="seccion-finanzas" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <p style="color: #8a9aa8;">Módulo de finanzas — próximamente</p>
+            </div>
+        </div>
+
+        <div id="seccion-configuracion" class="hidden">
+            <div class="rounded-xl p-6" style="background-color: #243040;">
+                <p style="color: #8a9aa8;">Módulo de configuración — próximamente</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const API = "http://127.0.0.1:8000"
+        const token = localStorage.getItem("token")
+        const rol = localStorage.getItem("rol")
+        const iglesia = localStorage.getItem("iglesia")
+
+        // Si no hay token, redirigir al login
+        if (!token) window.location.href = "login.html"
+
+        // Mostrar info del usuario
+        document.getElementById("rolUsuario").textContent = rol
+        document.getElementById("nombreIglesia").textContent = iglesia
+
+        // Headers con token
+        const headers = {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+
+        // Cargar dashboard
+        async function cargarDashboard() {
+            const miembros = await fetch(`${API}/miembros`, { headers }).then(r => r.json())
+            const anuncios = await fetch(`${API}/anuncios`).then(r => r.json())
+            document.getElementById("totalMiembros").textContent = miembros.length
+            document.getElementById("totalAnuncios").textContent = anuncios.length
+        }
+
+        // Navegación
+        function mostrarSeccion(seccion) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('[id^="seccion-"]').forEach(el => el.classList.add("hidden"));
+            // Mostrar la seleccionada
+            document.getElementById(`seccion-${seccion}`).classList.remove("hidden");
+            
+            // --- NUEVO: Actualizar el estado visual del menú ---
+            // 1. Quitar el color de fondo a todos los botones
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.style.backgroundColor = "transparent";
+            });
+            // 2. Ponerle el color azul al botón que acabamos de clickear
+            const btnActivo = document.getElementById(`nav-${seccion}`);
+            if (btnActivo) {
+                btnActivo.style.backgroundColor = "#4a6478";
+            }
+            // ---------------------------------------------------
+
+            // Actualizar título
+            const titulos = {
+                dashboard: ["Dashboard", "Resumen general"],
+                anuncios: ["Anuncios", "Gestiona los anuncios de tu iglesia"],
+                // ... (el resto de tus títulos)
+            };
+            document.getElementById("tituloSeccion").textContent = titulos[seccion][0];
+            document.getElementById("subtituloSeccion").textContent = titulos[seccion][1];
+
+            if (seccion === "anuncios") cargarAnuncios();
+        }
+        
+        // Funcion para el menu lateral
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const btnToggle = document.getElementById("btnToggle");
+            
+            // Elementos del logo
+            const logoHeaderContainer = document.getElementById("logo-header-container");
+            const logoInnerFlex = document.querySelector(".logo-inner-flex");
+
+            // Textos a ocultar
+            const textosAOcultar = document.querySelectorAll(".nav-texto, .sidebar-extra");
+            
+            // 🔴 CORRECCIÓN AQUÍ: Apuntamos correctamente a los botones de navegación y a la sección ".border-t" (Cerrar sesión y Avatar)
+            const elementosACentrar = document.querySelectorAll(".nav-btn, .border-t .flex, .border-t button");
+
+            // --- Lógica de Colapso ---
+            const esColapsado = sidebar.classList.toggle("w-16");
+            sidebar.classList.toggle("w-64");
+
+            // --- NUEVO: Girar la flecha flotante ---
+            const iconoToggle = document.getElementById("icono-toggle");
+            if (iconoToggle) {
+                if (esColapsado) {
+                    // Estado colapsado: Volteamos la flecha 180 grados
+                    iconoToggle.classList.add("rotate-180"); 
+                } else {
+                    // Estado expandido: Quitamos la rotación
+                    iconoToggle.classList.remove("rotate-180");
+                }
+            }
+            
+            // Ocultar textos
+            textosAOcultar.forEach(t => {
+                t.classList.toggle("hidden", esColapsado); 
+                if(esColapsado) {
+                    t.classList.add('w-0', 'invisible');
+                } else {
+                    t.classList.remove('hidden', 'w-0', 'invisible');
+                }
+            });
+
+            // Centrar iconos del menú, el avatar y el botón de cerrar sesión
+            elementosACentrar.forEach(elemento => {
+                if (esColapsado) {
+                    // Quitamos espaciados y forzamos el centro
+                    elemento.classList.remove("justify-start", "px-4", "gap-3", "text-left");
+                    elemento.classList.add("justify-center", "px-0");
+                } else {
+                    // Restauramos diseño original
+                    elemento.classList.remove("justify-center", "px-0");
+                    elemento.classList.add("justify-start", "px-4", "gap-3", "text-left");
+                }
+            });
+
+            // Manejo del LOGO
+            if (logoHeaderContainer && logoInnerFlex) {
+                if (esColapsado) {
+                    logoHeaderContainer.classList.remove("p-6");
+                    logoHeaderContainer.classList.add("p-2"); 
+                    logoInnerFlex.classList.remove("gap-3");
+                    logoInnerFlex.classList.add("justify-center");
+                } else {
+                    logoHeaderContainer.classList.add("p-6");
+                    logoHeaderContainer.classList.remove("p-2");
+                    logoInnerFlex.classList.add("gap-3");
+                    logoInnerFlex.classList.remove("justify-center");
+                }
+            }
+
+            // Mover el Botón Flotante
+            if (btnToggle) {
+                btnToggle.textContent = esColapsado ? "▶" : "◀";
+                btnToggle.style.left = esColapsado ? "52px" : "252px";
+            }
+
+            
+        }
+
+        // Cerrar sesión
+        function cerrarSesion() {
+            localStorage.clear()
+            window.location.href = "login.html"
+        }
+
+        // Anuncios
         async function cargarAnuncios() {
-            const respuesta = await fetch("https://anuncios-ibv-production.up.railway.app/anuncios")
+            const respuesta = await fetch(`${API}/anuncios`, { headers }) 
             const datos = await respuesta.json()
             
             const lista = document.getElementById("listaAnuncios")
             lista.innerHTML = ""
-            
-            datos.forEach(function(anuncio) {
+            datos.forEach(anuncio => {
                 const contenedor = document.createElement("div")
-                contenedor.className = "flex items-center justify-between py-3 border-b border-gray-100"
-
-                const textoSpan = document.createElement("span")
-                textoSpan.textContent = anuncio.texto
-                textoSpan.className = "text-gray-700"
-
+                contenedor.className = "flex items-center justify-between py-3 border-b"
+                contenedor.style.borderColor = "#4a6478"
+                const texto = document.createElement("span")
+                texto.textContent = anuncio.texto
+                texto.style.color = "#e8e0d0"
+                const botones = document.createElement("div")
+                
                 const btnEliminar = document.createElement("button")
                 btnEliminar.textContent = "Eliminar"
-                btnEliminar.className = "bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition text-sm ml-3"
-                btnEliminar.addEventListener("click", function() {
-                    eliminarAnuncio(anuncio.id)
+                btnEliminar.className = "px-3 py-1 rounded-lg text-sm ml-2"
+                btnEliminar.style.backgroundColor = "#4a2030"
+                btnEliminar.style.color = "#e8e0d0"
+                btnEliminar.addEventListener("click", () => eliminarAnuncio(anuncio.id))
+                
+                const btnEditar = document.createElement("button")
+                btnEditar.textContent = "Editar"
+                btnEditar.className = "px-3 py-1 rounded-lg text-sm ml-2"
+                btnEditar.style.backgroundColor = "#4a6478"
+                btnEditar.style.color = "#e8e0d0"
+                btnEditar.addEventListener("click", () => {
+                    const nuevoTexto = prompt("Nuevo texto:", anuncio.texto)
+                    if (nuevoTexto) updateAnuncio(anuncio.id, nuevoTexto)
                 })
-
-                const btnUpdate = document.createElement("button")
-                btnUpdate.textContent = "Editar"
-                btnUpdate.className = "bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition text-sm ml-2"
-                btnUpdate.addEventListener("click", function() {
-                    const nuevoTexto = prompt("Nuevo texto del anuncio:")
-                    updateAnuncio(anuncio.id, nuevoTexto)
-                })
-
-                const botones = document.createElement("div")
+                
+                botones.appendChild(btnEditar)
                 botones.appendChild(btnEliminar)
-                botones.appendChild(btnUpdate)
-
-                contenedor.appendChild(textoSpan)
+                contenedor.appendChild(texto)
                 contenedor.appendChild(botones)
                 lista.appendChild(contenedor)
             })
         }
 
-        // Agregar anuncio
-        btnEnviar.addEventListener("click", async function() {
-            const respuesta = await fetch("https://anuncios-ibv-production.up.railway.app/anuncios", {
+        document.getElementById("btnEnviar").addEventListener("click", async function() {
+            const texto = document.getElementById("textoAnuncio").value
+            if (!texto) return
+            await fetch(`${API}/anuncios`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({texto: inputNombre.value})
+                headers: headers, 
+                body: JSON.stringify({ texto })
             })
-            inputNombre.value = ""
+            document.getElementById("textoAnuncio").value = ""
             cargarAnuncios()
         })
 
-         // Eliminar anuncio
         async function eliminarAnuncio(id) {
-            await fetch("https://anuncios-ibv-production.up.railway.app/anuncios", {
+            if(!confirm("¿Estás seguro de eliminar este anuncio?")) return;
+
+            await fetch(`${API}/anuncios`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({id: id})
+                headers: headers, 
+                body: JSON.stringify({ id })
             })
             cargarAnuncios()
         }
 
-        // Actualizar anuncio
         async function updateAnuncio(id, nuevoTexto) {
-            await fetch("https://anuncios-ibv-production.up.railway.app/anuncios", {
+            await fetch(`${API}/anuncios`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({elID: id, nuevo_texto: nuevoTexto})
+                headers: headers, 
+                body: JSON.stringify({ elID: id, nuevo_texto: nuevoTexto })
             })
             cargarAnuncios()
         }
-        
-        cargarAnuncios()
+
+        // Iniciar
+        cargarDashboard()
     </script>
+
 </body>
 </html>
