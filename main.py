@@ -114,3 +114,35 @@ def crear_miembro(datos: LoginData, perfil = Depends(verificar_rol(["super_admin
 def obtener_miembros(perfil = Depends(verificar_rol(["super_admin", "pastor", "lider_celula"]))):
     miembros = supabase.table("perfiles").select("*").eq("iglesia", perfil["iglesia"]).execute()
     return miembros.data
+
+# ─── ANUNCIOS ───────────────────────────────────────
+
+class Anuncio(BaseModel):
+    texto: str
+
+class AnuncioEliminar(BaseModel):
+    id: int
+
+class AnuncioActualizar(BaseModel):
+    elID: int
+    nuevo_texto: str
+
+@app.get("/anuncios")
+def obtener_anuncios():
+    respuesta = supabase.table("anuncios").select("*").execute()
+    return respuesta.data
+
+@app.post("/anuncios")
+def agregar_anuncio(anuncio: Anuncio):
+    respuesta = supabase.table("anuncios").insert({"texto": anuncio.texto}).execute()
+    return respuesta.data
+
+@app.put("/anuncios")
+def actualizar_anuncio(anuncio: AnuncioActualizar):
+    respuesta = supabase.table("anuncios").update({"texto": anuncio.nuevo_texto}).eq("id", anuncio.elID).execute()
+    return respuesta.data
+
+@app.delete("/anuncios")
+def eliminar_anuncio(anuncio: AnuncioEliminar):
+    respuesta = supabase.table("anuncios").delete().eq("id", anuncio.id).execute()
+    return respuesta.data
