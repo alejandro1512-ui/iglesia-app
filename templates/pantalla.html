@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <title>Anuncios de Iglesia Buena Vista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen p-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-4xl font-bold text-white mb-8">
+            📢 Anuncios IBV
+        </h1>
+
+        <div class="bg-gray-800 rounded-xl shadow p-6">
+            <div id="anuncios"></div>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("anuncios")
+
+        async function cargarAnuncios() {
+            const respuesta = await fetch("https://anuncios-ibv-production.up.railway.app/anuncios")
+            const datos = await respuesta.json()
+            
+            datos.forEach(function(anuncio){
+            const parrafo = document.createElement("p")
+            parrafo.textContent = anuncio.texto
+            parrafo.className = "text-white text-2xl py-4 border-b border-gray-700"
+            display.appendChild(parrafo)
+        })
+        }
+        cargarAnuncios()
+    </script>
+</body>
+</html>
