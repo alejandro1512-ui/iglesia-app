@@ -198,7 +198,32 @@
 
         <div id="seccion-miembros" class="hidden">
             <div class="rounded-xl p-6" style="background-color: #243040;">
-                <p style="color: #8a9aa8;">Módulo de miembros — próximamente</p>
+                
+                <!-- Agregar miembro -->
+                <div class="flex gap-3 mb-6">
+                    <input id="emailMiembro" type="email" placeholder="Email del nuevo miembro"
+                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                    <input id="passwordMiembro" type="password" placeholder="Contraseña"
+                        class="w-40 px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                    <select id="rolMiembro"
+                        class="px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        <option value="miembro">Miembro</option>
+                        <option value="lider_celula">Líder célula</option>
+                        <option value="pastor">Pastor</option>
+                    </select>
+                    <button id="btnAgregarMiembro"
+                        class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                        style="background-color: #4a6478; color: #e8e0d0;">
+                        Agregar
+                    </button>
+                </div>
+
+                <!-- Lista de miembros -->
+                <div id="listaMiembros"></div>
+
             </div>
         </div>
 
@@ -284,6 +309,7 @@
             document.getElementById("subtituloSeccion").textContent = titulos[seccion][1];
 
             if (seccion === "anuncios") cargarAnuncios();
+            if (seccion === "miembros") cargarMiembros()
         }
         
         // Funcion para el menu lateral
@@ -359,9 +385,7 @@
             if (btnToggle) {
                 btnToggle.textContent = esColapsado ? "▶" : "◀";
                 btnToggle.style.left = esColapsado ? "52px" : "252px";
-            }
-
-            
+            }    
         }
 
         // Cerrar sesión
@@ -411,6 +435,61 @@
             })
         }
 
+        // Cargar miembros
+        async function cargarMiembros() {
+            const respuesta = await fetch(`${API}/miembros`, { headers })
+            const datos = await respuesta.json()
+            const lista = document.getElementById("listaMiembros")
+            lista.innerHTML = ""
+            datos.forEach(miembro => {
+                const fila = document.createElement("div")
+                fila.className = "flex items-center justify-between py-3 border-b"
+                fila.style.borderColor = "#4a6478"
+
+                const info = document.createElement("div")
+                const email = document.createElement("p")
+                email.textContent = miembro.email
+                email.style.color = "#e8e0d0"
+                const rol = document.createElement("p")
+                rol.textContent = miembro.rol
+                rol.className = "text-xs"
+                rol.style.color = "#8a9aa8"
+                info.appendChild(email)
+                info.appendChild(rol)
+
+                const badge = document.createElement("span")
+                badge.textContent = miembro.rol
+                badge.className = "px-3 py-1 rounded-full text-xs font-medium"
+                badge.style.backgroundColor = miembro.rol === "super_admin" ? "#4a2030" : "#4a6478"
+                badge.style.color = "#e8e0d0"
+
+                fila.appendChild(info)
+                fila.appendChild(badge)
+                lista.appendChild(fila)
+            })
+        }
+
+        // Agregar miembro
+        document.getElementById("btnAgregarMiembro").addEventListener("click", async function() {
+            const email = document.getElementById("emailMiembro").value
+            const password = document.getElementById("passwordMiembro").value
+            const rol = document.getElementById("rolMiembro").value
+
+            if (!email || !password) return
+
+            const respuesta = await fetch(`${API}/miembros`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ email, password })
+            })
+
+            if (respuesta.ok) {
+                document.getElementById("emailMiembro").value = ""
+                document.getElementById("passwordMiembro").value = ""
+                cargarMiembros()
+            }
+        })
+
         document.getElementById("btnEnviar").addEventListener("click", async function() {
             const texto = document.getElementById("textoAnuncio").value
             if (!texto) return
@@ -446,6 +525,5 @@
         // Iniciar
         cargarDashboard()
     </script>
-
 </body>
 </html>
