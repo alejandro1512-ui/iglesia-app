@@ -151,6 +151,12 @@ def eliminar_anuncio(anuncio: AnuncioEliminar):
 
 class Celula(BaseModel):
     nombre: str
+    red: str = None
+    sector: str = None
+    zona: str = None
+    nombre_lider: str = None
+    nombre_asistente: str = None
+    nombre_anfitrion: str = None
     lider_email: str = None
 
 @app.get("/celulas")
@@ -167,6 +173,12 @@ def crear_celula(celula: Celula, perfil = Depends(verificar_rol(["super_admin", 
     respuesta = supabase.table("celulas").insert({
         "nombre": celula.nombre,
         "iglesia": nombre_iglesia,
+        "red": celula.red,
+        "sector": celula.sector,
+        "zona": celula.zona,
+        "nombre_lider": celula.nombre_lider,
+        "nombre_asistente": celula.nombre_asistente,
+        "nombre_anfitrion": celula.nombre_anfitrion,
         "lider_email": celula.lider_email
     }).execute()
     return respuesta.data
@@ -227,4 +239,14 @@ def obtener_reportes_celula(celula_id: int, perfil = Depends(verificar_token)):
 @app.post("/reportes")
 def crear_reporte(reporte: ReporteCelula, perfil = Depends(verificar_token)):
     respuesta = supabase.table("reportes_celula").insert(reporte.dict()).execute()
+    return respuesta.data
+
+@app.put("/reportes/{reporte_id}")
+def actualizar_reporte(reporte_id: int, reporte: ReporteCelula, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
+    respuesta = supabase.table("reportes_celula").update(reporte.dict()).eq("id", reporte_id).execute()
+    return respuesta.data
+
+@app.delete("/reportes/{reporte_id}")
+def eliminar_reporte(reporte_id: int, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
+    respuesta = supabase.table("reportes_celula").delete().eq("id", reporte_id).execute()
     return respuesta.data

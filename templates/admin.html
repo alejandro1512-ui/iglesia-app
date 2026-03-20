@@ -3,6 +3,8 @@
 <head>
     <title>IBV — Panel de Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         .nav-btn:hover {
             background-color: #4a6478;
@@ -251,19 +253,66 @@
             <!-- Tab: Lista de células -->
             <div id="tab-contenido-lista">
                 <div class="rounded-xl p-6" style="background-color: #243040;">
-                    <div class="flex gap-3 mb-6">
-                        <input id="nombreCelula" type="text" placeholder="Nombre de la célula"
-                            class="flex-1 px-4 py-2 rounded-xl border outline-none"
-                            style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                        <input id="liderCelula" type="email" placeholder="Email del líder (opcional)"
-                            class="flex-1 px-4 py-2 rounded-xl border outline-none"
-                            style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                        <button id="btnAgregarCelula"
-                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
-                            style="background-color: #4a6478; color: #e8e0d0;">
-                            Agregar
-                        </button>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre de la célula</label>
+                            <input id="nombreCelula" type="text" placeholder="Ej: Célula 1"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Red (opcional)</label>
+                            <select id="redCelula" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                                <option value="">Sin red</option>
+                                <option value="Juvenil">Juvenil</option>
+                                <option value="DNA">DNA</option>
+                                <option value="Varones">Varones</option>
+                                <option value="Damas">Damas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Sector</label>
+                            <input id="sectorCelula" type="text" placeholder="Ej: Norte"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Zona</label>
+                            <input id="zonaCelula" type="text" placeholder="Ej: Zona 1"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre del líder</label>
+                            <input id="liderCelula" type="text" placeholder="Nombre completo"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre del asistente</label>
+                            <input id="asistenteCelula" type="text" placeholder="Nombre completo"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre del anfitrión</label>
+                            <input id="anfitrionCelula" type="text" placeholder="Nombre completo"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Email del líder (opcional)</label>
+                            <input id="emailLiderCelula" type="email" placeholder="email@ejemplo.com"
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
                     </div>
+                    <button id="btnAgregarCelula"
+                        class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90 mb-6"
+                        style="background-color: #4a6478; color: #e8e0d0;">
+                        Agregar Célula
+                    </button>
                     <div id="listaCelulas"></div>
                 </div>
             </div>
@@ -284,6 +333,45 @@
                             <label class="text-sm mb-1 block" style="color: #8a9aa8;">Fecha</label>
                             <input id="reporteFecha" type="date" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Red</label>
+                            <input id="r_red" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Sector</label>
+                            <input id="r_sector" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Zona</label>
+                            <input id="r_zona" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Nombre del líder</label>
+                            <input id="r_nombre_lider" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Nombre del asistente</label>
+                            <input id="r_nombre_asistente" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Nombre del anfitrión</label>
+                            <input id="r_nombre_anfitrion" type="text" readonly
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #8a9aa8;">
                         </div>
                     </div>
 
@@ -442,14 +530,27 @@
                         </div>
                     </div>
 
-                    <!-- Total ofrenda y observaciones -->
+                    <!-- Ofrenda -->
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Total ofrenda</label>
-                            <input id="r_total_ofrenda" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
-                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Ofrenda en pesos (MXN)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-sm" style="color: #8a9aa8;">$</span>
+                                <input id="r_ofrenda_pesos" type="number" value="0" min="0" step="0.01"
+                                    class="w-full pl-7 pr-4 py-2 rounded-xl border outline-none"
+                                    style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                            </div>
                         </div>
                         <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Ofrenda en dólares (USD)</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-sm" style="color: #8a9aa8;">$</span>
+                                <input id="r_ofrenda_dolares" type="number" value="0" min="0" step="0.01"
+                                    class="w-full pl-7 pr-4 py-2 rounded-xl border outline-none"
+                                    style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                            </div>
+                        </div>
+                        <div class="col-span-2">
                             <label class="text-sm mb-1 block" style="color: #8a9aa8;">Observaciones</label>
                             <textarea id="r_observaciones" rows="3" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;"></textarea>
@@ -549,7 +650,7 @@
                 finanzas: ["Finanzas", "Diezmos y ofrendas"],
                 configuracion: ["Configuración", "Ajustes del sistema"]
             };
-            
+
             document.getElementById("tituloSeccion").textContent = titulos[seccion][0];
             document.getElementById("subtituloSeccion").textContent = titulos[seccion][1];
 
@@ -794,16 +895,43 @@
         // Agregar célula
         document.getElementById("btnAgregarCelula").addEventListener("click", async function() {
             const nombre = document.getElementById("nombreCelula").value
+            const red = document.getElementById("redCelula").value
+            const sector = document.getElementById("sectorCelula").value
+            const zona = document.getElementById("zonaCelula").value
             const lider = document.getElementById("liderCelula").value
+            const asistente = document.getElementById("asistenteCelula").value
+            const anfitrion = document.getElementById("anfitrionCelula").value
+            const emailLider = document.getElementById("emailLiderCelula").value
+
             if (!nombre) return
+
             await fetch(`${API}/celulas`, {
                 method: "POST",
                 headers,
-                body: JSON.stringify({ nombre, lider_email: lider })
+                body: JSON.stringify({
+                    nombre,
+                    red,
+                    sector,
+                    zona,
+                    nombre_lider: lider,
+                    nombre_asistente: asistente,
+                    nombre_anfitrion: anfitrion,
+                    lider_email: emailLider
+                })
             })
+
+            // Limpiar campos
             document.getElementById("nombreCelula").value = ""
+            document.getElementById("redCelula").value = ""
+            document.getElementById("sectorCelula").value = ""
+            document.getElementById("zonaCelula").value = ""
             document.getElementById("liderCelula").value = ""
+            document.getElementById("asistenteCelula").value = ""
+            document.getElementById("anfitrionCelula").value = ""
+            document.getElementById("emailLiderCelula").value = ""
+
             cargarCelulas()
+            cargarCelulasSelect()
         })
 
         // Eliminar célula
@@ -814,6 +942,7 @@
                 headers
             })
             cargarCelulas()
+            cargarCelulasSelect()
         }
 
         // Tabs de células
@@ -839,8 +968,29 @@
                 const option = document.createElement("option")
                 option.value = celula.id
                 option.textContent = celula.nombre
+                // Guardamos los datos de la célula en el option
+                option.dataset.lider = celula.nombre_lider || ""
+                option.dataset.asistente = celula.nombre_asistente || ""
+                option.dataset.anfitrion = celula.nombre_anfitrion || ""
+                option.dataset.red = celula.red || ""
+                option.dataset.sector = celula.sector || ""
+                option.dataset.zona = celula.zona || ""
                 select.appendChild(option)
             })
+
+            // Al cambiar la célula, actualizar los campos automáticamente
+            select.addEventListener("change", function() {
+                const opcionSeleccionada = select.options[select.selectedIndex]
+                document.getElementById("r_nombre_lider").value = opcionSeleccionada.dataset.lider
+                document.getElementById("r_nombre_asistente").value = opcionSeleccionada.dataset.asistente
+                document.getElementById("r_nombre_anfitrion").value = opcionSeleccionada.dataset.anfitrion
+                document.getElementById("r_red").value = opcionSeleccionada.dataset.red
+                document.getElementById("r_sector").value = opcionSeleccionada.dataset.sector
+                document.getElementById("r_zona").value = opcionSeleccionada.dataset.zona
+            })
+            
+            // Disparar el evento al cargar para llenar con la primera célula
+            select.dispatchEvent(new Event("change"))
         }
 
         // Enviar reporte
@@ -874,7 +1024,9 @@
                 ninos_culto: parseInt(document.getElementById("r_ninos_culto").value),
                 jovenes_culto: parseInt(document.getElementById("r_jovenes_culto").value),
                 amigos_culto: parseInt(document.getElementById("r_amigos_culto").value),
-                total_ofrenda: parseFloat(document.getElementById("r_total_ofrenda").value),
+                ofrenda_pesos: parseFloat(document.getElementById("r_ofrenda_pesos").value),
+                ofrenda_dolares: parseFloat(document.getElementById("r_ofrenda_dolares").value),
+                total_ofrenda: parseFloat(document.getElementById("r_ofrenda_pesos").value) + parseFloat(document.getElementById("r_ofrenda_dolares").value),
                 observaciones: document.getElementById("r_observaciones").value
             }
 
@@ -891,6 +1043,14 @@
 
             if (respuesta.ok) {
                 alert("Reporte enviado correctamente")
+                
+                // Resetear formulario
+                document.querySelectorAll("#tab-contenido-reporte input[type='number']").forEach(input => {
+                    input.value = "0"
+                })
+                document.getElementById("r_observaciones").value = ""
+                document.getElementById("reporteFecha").value = ""
+                
                 mostrarTabCelula("ver-reportes")
             }
         })
@@ -922,12 +1082,126 @@
                                 Conversiones: ${reporte.conversiones} | 
                                 Ofrenda total: $${reporte.total_ofrenda}
                             </p>
+                            ${reporte.observaciones ? `<p class="text-xs mt-2" style="color: #8a9aa8;">${reporte.observaciones}</p>` : ""}
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="exportarPDF(${reporte.id})"
+                                class="px-3 py-1 rounded-lg text-xs"
+                                style="background-color: #2a4a30; color: #e8e0d0;">
+                                📄 PDF
+                            </button>
+                            <button onclick="eliminarReporte(${reporte.id})"
+                                class="px-3 py-1 rounded-lg text-xs"
+                                style="background-color: #4a2030; color: #e8e0d0;">
+                                Eliminar
+                            </button>
                         </div>
                     </div>
-                    ${reporte.observaciones ? `<p class="text-xs mt-2" style="color: #8a9aa8;">${reporte.observaciones}</p>` : ""}
                 `
                 lista.appendChild(div)
             })
+        }
+
+        // Eliminar reporte
+        async function eliminarReporte(id) {
+            if (!confirm("¿Eliminar este reporte?")) return
+            await fetch(`${API}/reportes/${id}`, {
+                method: "DELETE",
+                headers
+            })
+            cargarReportes()
+        }
+
+        // Exportar PDF
+        async function exportarPDF(id) {
+            const respuesta = await fetch(`${API}/reportes`, { headers })
+            const datos = await respuesta.json()
+            const reporte = datos.find(r => r.id === id)
+            if (!reporte) return
+
+            const { jsPDF } = window.jspdf
+            const doc = new jsPDF()
+
+            // ── Encabezado ──
+            doc.setFontSize(13)
+            doc.setFont("helvetica", "bold")
+            doc.text("IGLESIA APOSTÓLICA DE LA FE EN CRISTO JESÚS, A. R.", 105, 15, { align: "center" })
+            doc.setFontSize(14)
+            doc.text("REPORTE DE CÉLULA SEMANAL", 105, 23, { align: "center" })
+
+            // ── Info general ──
+            doc.autoTable({
+                startY: 28,
+                theme: "grid",
+                styles: { fontSize: 9, cellPadding: 2 },
+                headStyles: { fillColor: [74, 100, 120], textColor: 255, fontStyle: "bold" },
+                body: [
+                    ["CÉLULA No.", reporte.celulas?.nombre || "—", "FECHA", reporte.fecha],
+                    ["MIEMBROS BAUTIZADOS", reporte.miembros_asistentes, "MIEMBROS NO BAUTIZADOS", reporte.miembros_faltantes],
+                ],
+                columnStyles: {
+                    0: { fontStyle: "bold", fillColor: [240, 240, 240] },
+                    2: { fontStyle: "bold", fillColor: [240, 240, 240] },
+                }
+            })
+
+            // ── Reuniones y Procesos ──
+            doc.setFontSize(11)
+            doc.setFont("helvetica", "bold")
+            doc.text("REUNIONES Y PROCESOS", 105, doc.lastAutoTable.finalY + 8, { align: "center" })
+
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 12,
+                theme: "grid",
+                styles: { fontSize: 9, cellPadding: 2 },
+                columnStyles: {
+                    0: { fontStyle: "bold", fillColor: [240, 240, 240], cellWidth: 70 },
+                    2: { fontStyle: "bold", fillColor: [240, 240, 240], cellWidth: 70 },
+                },
+                body: [
+                    // Planeación y Alcance
+                    [{ content: "PLANEACIÓN", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, 
+                    "", 
+                    { content: "ALCANCE", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, 
+                    ""],
+                    ["Miembros asistentes", reporte.miembros_asistentes, "Miembros asistentes", reporte.miembros_asistentes_alcance],
+                    ["Miembros faltantes", reporte.miembros_faltantes, "Miembros c/privilegios", reporte.miembros_privilegios],
+                    ["", "", "Amigos asistentes", reporte.amigos_asistentes],
+                    ["", "", "Jóvenes asistentes", reporte.jovenes_asistentes],
+
+                    // Proceso de Ganar
+                    [{ content: "PROCESO DE GANAR", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
+                    "Adolescentes asistentes", reporte.adolescentes_asistentes],
+                    ["Padres Espirituales", reporte.padres_espirituales, "Conversiones", reporte.conversiones],
+                    ["Amigos contactados", reporte.amigos_contactados, "Niños", reporte.ninos_alcance],
+                    ["Amigos a la fiesta", reporte.amigos_fiesta, "Ofrenda", `$${reporte.ofrenda_alcance}`],
+                    ["Amigos al E. Restauración", reporte.amigos_restauracion, 
+                    { content: "CULTO DOMINGO", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, ""],
+                    ["Amigos bautizados", reporte.amigos_bautizados, "Miembros asistentes", reporte.miembros_culto],
+
+                    // Proceso de Consolidar
+                    [{ content: "PROCESO DE CONSOLIDAR", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
+                    "Adolescentes", reporte.adolescentes_culto],
+                    ["Bautizados etapa 1", reporte.bautizados_etapa1, "Niños", reporte.ninos_culto],
+                    ["Bautizados etapa 2", reporte.bautizados_etapa2, "Jóvenes", reporte.jovenes_culto],
+                    ["Bautizados etapa 3", reporte.bautizados_etapa3, "Amigos asistentes", reporte.amigos_culto],
+                    ["Re-encuentro", reporte.reencuentro, 
+                    { content: "OBSERVACIONES", styles: { fontStyle: "bold", fillColor: [220, 230, 240] } }, ""],
+                    ["Escuela ECO", reporte.escuela_eco, reporte.observaciones || "", ""],
+                    ["Escuela de Ministerios", reporte.escuela_ministerios, "", ""],
+
+                    // Proceso de Discipulado
+                    [{ content: "PROCESO DE DISCIPULADO", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
+                    { content: "TOTAL OFRENDA", styles: { fontStyle: "bold", fillColor: [220, 230, 240] } },
+                    { content: `$${reporte.total_ofrenda}`, styles: { fontStyle: "bold" } }],
+                    ["Célula a multiplicarse", reporte.celula_multiplicarse ? "Sí" : "No", "", ""],
+                    ["Padres Espirituales N/célula", reporte.padres_espirituales_ncelula, "", ""],
+                    ["Niños", reporte.ninos_discipulado, "", ""],
+                    ["Ofrendas", `$${reporte.ofrendas_discipulado}`, "", ""],
+                ]
+            })
+
+            doc.save(`reporte-${reporte.celulas?.nombre || id}-${reporte.fecha}.pdf`)
         }
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {
