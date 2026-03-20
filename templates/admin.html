@@ -195,7 +195,7 @@
                 <div id="listaAnuncios"></div>
             </div>
         </div>
-
+        
         <div id="seccion-miembros" class="hidden">
             <div class="rounded-xl p-6" style="background-color: #243040;">
                 
@@ -229,7 +229,25 @@
 
         <div id="seccion-celulas" class="hidden">
             <div class="rounded-xl p-6" style="background-color: #243040;">
-                <p style="color: #8a9aa8;">Módulo de células — próximamente</p>
+
+                <!-- Agregar célula -->
+                <div class="flex gap-3 mb-6">
+                    <input id="nombreCelula" type="text" placeholder="Nombre de la célula"
+                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                    <input id="liderCelula" type="email" placeholder="Email del líder (opcional)"
+                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                    <button id="btnAgregarCelula"
+                        class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                        style="background-color: #4a6478; color: #e8e0d0;">
+                        Agregar
+                    </button>
+                </div>
+
+                <!-- Lista de células -->
+                <div id="listaCelulas"></div>
+
             </div>
         </div>
 
@@ -310,6 +328,7 @@
 
             if (seccion === "anuncios") cargarAnuncios();
             if (seccion === "miembros") cargarMiembros()
+            if (seccion === "celulas") cargarCelulas()
         }
         
         // Funcion para el menu lateral
@@ -489,6 +508,66 @@
                 cargarMiembros()
             }
         })
+
+        // Cargar células
+        async function cargarCelulas() {
+            const respuesta = await fetch(`${API}/celulas`, { headers })
+            const datos = await respuesta.json()
+            const lista = document.getElementById("listaCelulas")
+            lista.innerHTML = ""
+            datos.forEach(celula => {
+                const fila = document.createElement("div")
+                fila.className = "flex items-center justify-between py-3 border-b"
+                fila.style.borderColor = "#4a6478"
+
+                const info = document.createElement("div")
+                const nombre = document.createElement("p")
+                nombre.textContent = celula.nombre
+                nombre.style.color = "#e8e0d0"
+                const lider = document.createElement("p")
+                lider.textContent = celula.lider_email || "Sin líder asignado"
+                lider.className = "text-xs"
+                lider.style.color = "#8a9aa8"
+                info.appendChild(nombre)
+                info.appendChild(lider)
+
+                const btnEliminar = document.createElement("button")
+                btnEliminar.textContent = "Eliminar"
+                btnEliminar.className = "px-3 py-1 rounded-lg text-sm"
+                btnEliminar.style.backgroundColor = "#4a2030"
+                btnEliminar.style.color = "#e8e0d0"
+                btnEliminar.addEventListener("click", () => eliminarCelula(celula.id))
+
+                fila.appendChild(info)
+                fila.appendChild(btnEliminar)
+                lista.appendChild(fila)
+            })
+        }
+
+        // Agregar célula
+        document.getElementById("btnAgregarCelula").addEventListener("click", async function() {
+            const nombre = document.getElementById("nombreCelula").value
+            const lider = document.getElementById("liderCelula").value
+            if (!nombre) return
+            await fetch(`${API}/celulas`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ nombre, lider_email: lider })
+            })
+            document.getElementById("nombreCelula").value = ""
+            document.getElementById("liderCelula").value = ""
+            cargarCelulas()
+        })
+
+        // Eliminar célula
+        async function eliminarCelula(id) {
+            if (!confirm("¿Eliminar esta célula?")) return
+            await fetch(`${API}/celulas/${id}`, {
+                method: "DELETE",
+                headers
+            })
+            cargarCelulas()
+        }
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {
             const texto = document.getElementById("textoAnuncio").value

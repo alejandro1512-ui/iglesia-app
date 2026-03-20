@@ -146,3 +146,32 @@ def actualizar_anuncio(anuncio: AnuncioActualizar):
 def eliminar_anuncio(anuncio: AnuncioEliminar):
     respuesta = supabase.table("anuncios").delete().eq("id", anuncio.id).execute()
     return respuesta.data
+
+# ─── CÉLULAS ────────────────────────────────────────
+
+class Celula(BaseModel):
+    nombre: str
+    lider_email: str = None
+
+@app.get("/celulas")
+def obtener_celulas(perfil = Depends(verificar_token)):
+    iglesia = supabase.table("perfiles").select("iglesia").eq("id", str(perfil.id)).execute()
+    nombre_iglesia = iglesia.data[0]["iglesia"]
+    respuesta = supabase.table("celulas").select("*").eq("iglesia", nombre_iglesia).execute()
+    return respuesta.data
+
+@app.post("/celulas")
+def crear_celula(celula: Celula, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
+    iglesia = supabase.table("perfiles").select("iglesia").eq("id", str(perfil["id"])).execute()
+    nombre_iglesia = iglesia.data[0]["iglesia"]
+    respuesta = supabase.table("celulas").insert({
+        "nombre": celula.nombre,
+        "iglesia": nombre_iglesia,
+        "lider_email": celula.lider_email
+    }).execute()
+    return respuesta.data
+
+@app.delete("/celulas/{celula_id}")
+def eliminar_celula(celula_id: int, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
+    respuesta = supabase.table("celulas").delete().eq("id", celula_id).execute()
+    return respuesta.data
