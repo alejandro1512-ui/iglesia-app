@@ -175,3 +175,56 @@ def crear_celula(celula: Celula, perfil = Depends(verificar_rol(["super_admin", 
 def eliminar_celula(celula_id: int, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
     respuesta = supabase.table("celulas").delete().eq("id", celula_id).execute()
     return respuesta.data
+
+# ─── REPORTES DE CÉLULA ─────────────────────────────
+
+class ReporteCelula(BaseModel):
+    celula_id: int
+    fecha: str
+    miembros_asistentes: int = 0
+    miembros_faltantes: int = 0
+    padres_espirituales: int = 0
+    amigos_contactados: int = 0
+    amigos_fiesta: int = 0
+    amigos_restauracion: int = 0
+    amigos_bautizados: int = 0
+    bautizados_etapa1: int = 0
+    bautizados_etapa2: int = 0
+    bautizados_etapa3: int = 0
+    reencuentro: int = 0
+    escuela_eco: int = 0
+    escuela_ministerios: int = 0
+    celula_multiplicarse: bool = False
+    padres_espirituales_ncelula: int = 0
+    ninos_discipulado: int = 0
+    ofrendas_discipulado: float = 0
+    miembros_asistentes_alcance: int = 0
+    miembros_privilegios: int = 0
+    amigos_asistentes: int = 0
+    jovenes_asistentes: int = 0
+    adolescentes_asistentes: int = 0
+    conversiones: int = 0
+    ninos_alcance: int = 0
+    ofrenda_alcance: float = 0
+    miembros_culto: int = 0
+    adolescentes_culto: int = 0
+    ninos_culto: int = 0
+    jovenes_culto: int = 0
+    amigos_culto: int = 0
+    total_ofrenda: float = 0
+    observaciones: str = ""
+
+@app.get("/reportes")
+def obtener_reportes(perfil = Depends(verificar_token)):
+    respuesta = supabase.table("reportes_celula").select("*, celulas(nombre)").execute()
+    return respuesta.data
+
+@app.get("/reportes/{celula_id}")
+def obtener_reportes_celula(celula_id: int, perfil = Depends(verificar_token)):
+    respuesta = supabase.table("reportes_celula").select("*").eq("celula_id", celula_id).order("fecha", desc=True).execute()
+    return respuesta.data
+
+@app.post("/reportes")
+def crear_reporte(reporte: ReporteCelula, perfil = Depends(verificar_token)):
+    respuesta = supabase.table("reportes_celula").insert(reporte.dict()).execute()
+    return respuesta.data

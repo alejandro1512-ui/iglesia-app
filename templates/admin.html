@@ -228,27 +228,250 @@
         </div>
 
         <div id="seccion-celulas" class="hidden">
-            <div class="rounded-xl p-6" style="background-color: #243040;">
 
-                <!-- Agregar célula -->
-                <div class="flex gap-3 mb-6">
-                    <input id="nombreCelula" type="text" placeholder="Nombre de la célula"
-                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
-                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                    <input id="liderCelula" type="email" placeholder="Email del líder (opcional)"
-                        class="flex-1 px-4 py-2 rounded-xl border outline-none"
-                        style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                    <button id="btnAgregarCelula"
-                        class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
-                        style="background-color: #4a6478; color: #e8e0d0;">
-                        Agregar
-                    </button>
-                </div>
-
-                <!-- Lista de células -->
-                <div id="listaCelulas"></div>
-
+            <!-- Tabs -->
+            <div class="flex gap-2 mb-6">
+                <button onclick="mostrarTabCelula('lista')" id="tab-lista"
+                    class="px-4 py-2 rounded-xl text-sm font-medium transition"
+                    style="background-color: #4a6478; color: #e8e0d0;">
+                    Lista de células
+                </button>
+                <button onclick="mostrarTabCelula('reporte')" id="tab-reporte"
+                    class="px-4 py-2 rounded-xl text-sm font-medium transition"
+                    style="background-color: #1a2330; color: #8a9aa8;">
+                    Nuevo reporte
+                </button>
+                <button onclick="mostrarTabCelula('ver-reportes')" id="tab-ver-reportes"
+                    class="px-4 py-2 rounded-xl text-sm font-medium transition"
+                    style="background-color: #1a2330; color: #8a9aa8;">
+                    Ver reportes
+                </button>
             </div>
+
+            <!-- Tab: Lista de células -->
+            <div id="tab-contenido-lista">
+                <div class="rounded-xl p-6" style="background-color: #243040;">
+                    <div class="flex gap-3 mb-6">
+                        <input id="nombreCelula" type="text" placeholder="Nombre de la célula"
+                            class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                            style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        <input id="liderCelula" type="email" placeholder="Email del líder (opcional)"
+                            class="flex-1 px-4 py-2 rounded-xl border outline-none"
+                            style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        <button id="btnAgregarCelula"
+                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                            style="background-color: #4a6478; color: #e8e0d0;">
+                            Agregar
+                        </button>
+                    </div>
+                    <div id="listaCelulas"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Nuevo reporte -->
+            <div id="tab-contenido-reporte" class="hidden">
+                <div class="rounded-xl p-6" style="background-color: #243040;">
+                    
+                    <!-- Info general -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Célula</label>
+                            <select id="reporteCelulaId" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Fecha</label>
+                            <input id="reporteFecha" type="date" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Planeación -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Planeación</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
+                            <input id="r_miembros_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros faltantes</label>
+                            <input id="r_miembros_faltantes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Proceso de Ganar -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Proceso de Ganar</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Padres espirituales</label>
+                            <input id="r_padres_espirituales" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos contactados</label>
+                            <input id="r_amigos_contactados" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos a la fiesta</label>
+                            <input id="r_amigos_fiesta" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos al E. Restauración</label>
+                            <input id="r_amigos_restauracion" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos bautizados</label>
+                            <input id="r_amigos_bautizados" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Proceso de Consolidar -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Proceso de Consolidar</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 1</label>
+                            <input id="r_bautizados_etapa1" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 2</label>
+                            <input id="r_bautizados_etapa2" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 3</label>
+                            <input id="r_bautizados_etapa3" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Re-encuentro</label>
+                            <input id="r_reencuentro" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Escuela ECO</label>
+                            <input id="r_escuela_eco" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Escuela de Ministerios</label>
+                            <input id="r_escuela_ministerios" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Alcance -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Alcance</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
+                            <input id="r_miembros_asistentes_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros c/privilegios</label>
+                            <input id="r_miembros_privilegios" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos asistentes</label>
+                            <input id="r_amigos_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Jóvenes asistentes</label>
+                            <input id="r_jovenes_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Adolescentes asistentes</label>
+                            <input id="r_adolescentes_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Conversiones</label>
+                            <input id="r_conversiones" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Niños</label>
+                            <input id="r_ninos_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrenda</label>
+                            <input id="r_ofrenda_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Culto Domingo -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Culto Domingo</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
+                            <input id="r_miembros_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Adolescentes</label>
+                            <input id="r_adolescentes_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Niños</label>
+                            <input id="r_ninos_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Jóvenes</label>
+                            <input id="r_jovenes_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos asistentes</label>
+                            <input id="r_amigos_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Total ofrenda y observaciones -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Total ofrenda</label>
+                            <input id="r_total_ofrenda" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Observaciones</label>
+                            <textarea id="r_observaciones" rows="3" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;"></textarea>
+                        </div>
+                    </div>
+
+                    <button id="btnEnviarReporte"
+                        class="w-full py-3 rounded-xl font-semibold transition hover:opacity-90"
+                        style="background-color: #4a6478; color: #e8e0d0;">
+                        Enviar Reporte
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Tab: Ver reportes -->
+            <div id="tab-contenido-ver-reportes" class="hidden">
+                <div class="rounded-xl p-6" style="background-color: #243040;">
+                    <div id="listaReportes"></div>
+                </div>
+            </div>
+
         </div>
 
         <div id="seccion-asistencia" class="hidden">
@@ -317,18 +540,27 @@
             }
             // ---------------------------------------------------
 
-            // Actualizar título
             const titulos = {
                 dashboard: ["Dashboard", "Resumen general"],
                 anuncios: ["Anuncios", "Gestiona los anuncios de tu iglesia"],
-                // ... (el resto de tus títulos)
+                miembros: ["Miembros", "Directorio de miembros"],
+                celulas: ["Células", "Gestión de células y reportes"],
+                asistencia: ["Asistencia", "Registro de asistencia"],
+                finanzas: ["Finanzas", "Diezmos y ofrendas"],
+                configuracion: ["Configuración", "Ajustes del sistema"]
             };
+            
             document.getElementById("tituloSeccion").textContent = titulos[seccion][0];
             document.getElementById("subtituloSeccion").textContent = titulos[seccion][1];
 
-            if (seccion === "anuncios") cargarAnuncios();
+            if (seccion === "dashboard") cargarDashboard()
+            if (seccion === "anuncios") cargarAnuncios()
             if (seccion === "miembros") cargarMiembros()
-            if (seccion === "celulas") cargarCelulas()
+            if (seccion === "celulas") {
+                cargarCelulas()
+                cargarCelulasSelect()
+            }
+
         }
         
         // Funcion para el menu lateral
@@ -544,6 +776,21 @@
             })
         }
 
+        function mostrarTabCelula(tab) {
+            ["lista", "reporte", "ver-reportes"].forEach(t => {
+                document.getElementById(`tab-contenido-${t}`).classList.add("hidden")
+                document.getElementById(`tab-${t}`).style.backgroundColor = "#1a2330"
+                document.getElementById(`tab-${t}`).style.color = "#8a9aa8"
+            })
+            document.getElementById(`tab-contenido-${tab}`).classList.remove("hidden")
+            document.getElementById(`tab-${tab}`).style.backgroundColor = "#4a6478"
+            document.getElementById(`tab-${tab}`).style.color = "#e8e0d0"
+            
+            if (tab === "lista") cargarCelulas()
+            if (tab === "reporte") cargarCelulasSelect()
+            if (tab === "ver-reportes") cargarReportes()
+        }
+
         // Agregar célula
         document.getElementById("btnAgregarCelula").addEventListener("click", async function() {
             const nombre = document.getElementById("nombreCelula").value
@@ -567,6 +814,120 @@
                 headers
             })
             cargarCelulas()
+        }
+
+        // Tabs de células
+        function mostrarTabCelula(tab) {
+            ["lista", "reporte", "ver-reportes"].forEach(t => {
+                document.getElementById(`tab-contenido-${t}`).classList.add("hidden")
+                document.getElementById(`tab-${t}`).style.backgroundColor = "#1a2330"
+                document.getElementById(`tab-${t}`).style.color = "#8a9aa8"
+            })
+            document.getElementById(`tab-contenido-${tab}`).classList.remove("hidden")
+            document.getElementById(`tab-${tab}`).style.backgroundColor = "#4a6478"
+            document.getElementById(`tab-${tab}`).style.color = "#e8e0d0"
+            if (tab === "ver-reportes") cargarReportes()
+        }
+
+        // Cargar células en el select del reporte
+        async function cargarCelulasSelect() {
+            const respuesta = await fetch(`${API}/celulas`, { headers })
+            const datos = await respuesta.json()
+            const select = document.getElementById("reporteCelulaId")
+            select.innerHTML = ""
+            datos.forEach(celula => {
+                const option = document.createElement("option")
+                option.value = celula.id
+                option.textContent = celula.nombre
+                select.appendChild(option)
+            })
+        }
+
+        // Enviar reporte
+        document.getElementById("btnEnviarReporte").addEventListener("click", async function() {
+            const reporte = {
+                celula_id: parseInt(document.getElementById("reporteCelulaId").value),
+                fecha: document.getElementById("reporteFecha").value,
+                miembros_asistentes: parseInt(document.getElementById("r_miembros_asistentes").value),
+                miembros_faltantes: parseInt(document.getElementById("r_miembros_faltantes").value),
+                padres_espirituales: parseInt(document.getElementById("r_padres_espirituales").value),
+                amigos_contactados: parseInt(document.getElementById("r_amigos_contactados").value),
+                amigos_fiesta: parseInt(document.getElementById("r_amigos_fiesta").value),
+                amigos_restauracion: parseInt(document.getElementById("r_amigos_restauracion").value),
+                amigos_bautizados: parseInt(document.getElementById("r_amigos_bautizados").value),
+                bautizados_etapa1: parseInt(document.getElementById("r_bautizados_etapa1").value),
+                bautizados_etapa2: parseInt(document.getElementById("r_bautizados_etapa2").value),
+                bautizados_etapa3: parseInt(document.getElementById("r_bautizados_etapa3").value),
+                reencuentro: parseInt(document.getElementById("r_reencuentro").value),
+                escuela_eco: parseInt(document.getElementById("r_escuela_eco").value),
+                escuela_ministerios: parseInt(document.getElementById("r_escuela_ministerios").value),
+                miembros_asistentes_alcance: parseInt(document.getElementById("r_miembros_asistentes_alcance").value),
+                miembros_privilegios: parseInt(document.getElementById("r_miembros_privilegios").value),
+                amigos_asistentes: parseInt(document.getElementById("r_amigos_asistentes").value),
+                jovenes_asistentes: parseInt(document.getElementById("r_jovenes_asistentes").value),
+                adolescentes_asistentes: parseInt(document.getElementById("r_adolescentes_asistentes").value),
+                conversiones: parseInt(document.getElementById("r_conversiones").value),
+                ninos_alcance: parseInt(document.getElementById("r_ninos_alcance").value),
+                ofrenda_alcance: parseFloat(document.getElementById("r_ofrenda_alcance").value),
+                miembros_culto: parseInt(document.getElementById("r_miembros_culto").value),
+                adolescentes_culto: parseInt(document.getElementById("r_adolescentes_culto").value),
+                ninos_culto: parseInt(document.getElementById("r_ninos_culto").value),
+                jovenes_culto: parseInt(document.getElementById("r_jovenes_culto").value),
+                amigos_culto: parseInt(document.getElementById("r_amigos_culto").value),
+                total_ofrenda: parseFloat(document.getElementById("r_total_ofrenda").value),
+                observaciones: document.getElementById("r_observaciones").value
+            }
+
+            if (!reporte.fecha || !reporte.celula_id) {
+                alert("Por favor selecciona la célula y la fecha")
+                return
+            }
+
+            const respuesta = await fetch(`${API}/reportes`, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(reporte)
+            })
+
+            if (respuesta.ok) {
+                alert("Reporte enviado correctamente")
+                mostrarTabCelula("ver-reportes")
+            }
+        })
+
+        // Ver reportes
+        async function cargarReportes() {
+            const respuesta = await fetch(`${API}/reportes`, { headers })
+            const datos = await respuesta.json()
+            const lista = document.getElementById("listaReportes")
+            lista.innerHTML = ""
+
+            if (datos.length === 0) {
+                lista.innerHTML = `<p style="color: #8a9aa8;">No hay reportes aún</p>`
+                return
+            }
+
+            datos.forEach(reporte => {
+                const div = document.createElement("div")
+                div.className = "p-4 rounded-xl mb-3"
+                div.style.backgroundColor = "#1a2330"
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium" style="color: #e8e0d0;">
+                                ${reporte.celulas?.nombre || "Célula"} — ${reporte.fecha}
+                            </p>
+                            <p class="text-sm mt-1" style="color: #8a9aa8;">
+                                Miembros: ${reporte.miembros_asistentes} | 
+                                Conversiones: ${reporte.conversiones} | 
+                                Ofrenda total: $${reporte.total_ofrenda}
+                            </p>
+                        </div>
+                    </div>
+                    ${reporte.observaciones ? `<p class="text-xs mt-2" style="color: #8a9aa8;">${reporte.observaciones}</p>` : ""}
+                `
+                lista.appendChild(div)
+            })
         }
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {
