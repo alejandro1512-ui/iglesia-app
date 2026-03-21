@@ -17,7 +17,7 @@
 
         <!-- Logo y título -->
         <div class="text-center mb-10">
-            <img src="../static/logo.png" alt="IBV" class="w-24 h-24 mx-auto mb-4 rounded-full">
+            <img src="/static/logo.png" alt="IBV" class="w-24 h-24 mx-auto mb-4 rounded-full">
             <h1 class="text-3xl font-bold" style="color: #e8e0d0;">Iglesia Buena Vista</h1>
             <p class="mt-2" style="color: #8a9aa8;">Inicia sesión para continuar</p>
         </div>
@@ -103,9 +103,9 @@
                 localStorage.setItem("iglesia", datos.iglesia)
 
                 if (datos.rol === "super_admin" || datos.rol === "pastor") {
-                    window.location.href = "admin.html"
+                    window.location.href = "/admin"
                 } else {
-                    window.location.href = "pantalla.html"
+                    window.location.href = "/pantalla"
                 }
 
             } catch (error) {
@@ -116,6 +116,5 @@
             }
         })
     </script>
-
 </body>
 </html>

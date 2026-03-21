@@ -6,8 +6,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
+        .nav-btn {
+            transition: all 0.2s ease;
+        }
         .nav-btn:hover {
-            background-color: #4a6478;
+            background-color: rgba(74, 100, 120, 0.5) !important;
+            box-shadow: inset 0 0 0 1px rgba(74, 100, 120, 0.8);
         }
         .nav-btn.activo {
             background-color: #4a6478;
@@ -15,7 +19,34 @@
         #sidebar.w-16 .avatar-circle {
             margin: 0 auto;
         }
-</style>
+
+        /* Tabs de células */
+        button[id^="tab-"] {
+            transition: all 0.2s ease;
+        }
+        button[id^="tab-"]:hover {
+            filter: brightness(1.3);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Botón PDF */
+        button[onclick^="exportarPDF"] {
+            transition: all 0.2s ease;
+        }
+        button[onclick^="exportarPDF"]:hover {
+            background-color: #3a6a40 !important;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Botón Eliminar reporte */
+        button[onclick^="eliminarReporte"] {
+            transition: all 0.2s ease;
+        }
+        button[onclick^="eliminarReporte"]:hover {
+            background-color: #6a2030 !important;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+    </style>
 </head>
 <body class="min-h-screen flex" style="background-color: #1a2330;">
 
@@ -25,7 +56,7 @@
         <!-- Logo -->
         <div id="logo-header-container" class="p-6 border-b transition-all duration-300" style="border-color: #4a6478;">
             <div class="logo-inner-flex flex items-center gap-3 overflow-hidden transition-all duration-300">
-                <img src="../static/logo.png" alt="IBV" class="w-10 h-10 rounded-full flex-shrink-0">
+                <img src="/static/logo.png" alt="IBV" class="w-10 h-10 rounded-full flex-shrink-0">
                 
                 <div class="sidebar-extra whitespace-nowrap transition-opacity duration-300">
                     <h2 class="font-bold text-sm" style="color: #e8e0d0;">Iglesia Buena Vista</h2>
@@ -602,7 +633,7 @@
         const iglesia = localStorage.getItem("iglesia")
 
         // Si no hay token, redirigir al login
-        if (!token) window.location.href = "login.html"
+        if (!token) window.location.href = "/login"
 
         // Mostrar info del usuario
         document.getElementById("rolUsuario").textContent = rol
@@ -743,7 +774,7 @@
         // Cerrar sesión
         function cerrarSesion() {
             localStorage.clear()
-            window.location.href = "login.html"
+            window.location.href = "/login"
         }
 
         // Anuncios
@@ -1088,7 +1119,7 @@
                             <button onclick="exportarPDF(${reporte.id})"
                                 class="px-3 py-1 rounded-lg text-xs"
                                 style="background-color: #2a4a30; color: #e8e0d0;">
-                                📄 PDF
+                                PDF
                             </button>
                             <button onclick="eliminarReporte(${reporte.id})"
                                 class="px-3 py-1 rounded-lg text-xs"
@@ -1114,92 +1145,194 @@
 
         // Exportar PDF
         async function exportarPDF(id) {
+            const logo = document.getElementById('logo_iafcj')
+            console.log('Logo element:', logo)
+            console.log('Logo src:', logo?.src)
             const respuesta = await fetch(`${API}/reportes`, { headers })
             const datos = await respuesta.json()
             const reporte = datos.find(r => r.id === id)
             if (!reporte) return
 
             const { jsPDF } = window.jspdf
-            const doc = new jsPDF()
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' })
 
-            // ── Encabezado ──
-            doc.setFontSize(13)
+            const W = 215.9
+            const azul     = [30, 58, 90]
+            const azulMid  = [52, 90, 130]
+            const azulClaro= [210, 224, 237]
+            const gris     = [245, 247, 249]
+            const blanco   = [255, 255, 255]
+            const negro    = [20, 20, 20]
+            const lineColor= [180, 195, 210]
+
+            // ── Header azul oscuro ──
+            doc.setFillColor(...azul)
+            doc.rect(8, 8, W - 16, 22, 'F')
+
+            // Logo
+            doc.addImage(logo, 'PNG', 11, 9.5, 28, 18)
+
+            // Textos del header
+            doc.setTextColor(...blanco)
             doc.setFont("helvetica", "bold")
-            doc.text("IGLESIA APOSTÓLICA DE LA FE EN CRISTO JESÚS, A. R.", 105, 15, { align: "center" })
-            doc.setFontSize(14)
-            doc.text("REPORTE DE CÉLULA SEMANAL", 105, 23, { align: "center" })
+            doc.setFontSize(9.5)
+            doc.text("IGLESIA APOSTÓLICA DE LA FE EN CRISTO JESÚS, A. R.", W / 2, 17, { align: "center" })
+            doc.setFontSize(12)
+            doc.text("REPORTE DE CÉLULA SEMANAL", W / 2, 25, { align: "center" })
 
-            // ── Info general ──
+            // ── Info general (tabla de 4 col) ──
             doc.autoTable({
-                startY: 28,
-                theme: "grid",
-                styles: { fontSize: 9, cellPadding: 2 },
-                headStyles: { fillColor: [74, 100, 120], textColor: 255, fontStyle: "bold" },
-                body: [
-                    ["CÉLULA No.", reporte.celulas?.nombre || "—", "FECHA", reporte.fecha],
-                    ["MIEMBROS BAUTIZADOS", reporte.miembros_asistentes, "MIEMBROS NO BAUTIZADOS", reporte.miembros_faltantes],
-                ],
+                startY: 32,
+                margin: { left: 8, right: 8 },
+                tableWidth: W - 16,
+                theme: 'grid',
+                styles: { fontSize: 7.5, cellPadding: 2, textColor: negro, lineColor: lineColor, lineWidth: 0.3 },
                 columnStyles: {
-                    0: { fontStyle: "bold", fillColor: [240, 240, 240] },
-                    2: { fontStyle: "bold", fillColor: [240, 240, 240] },
-                }
-            })
-
-            // ── Reuniones y Procesos ──
-            doc.setFontSize(11)
-            doc.setFont("helvetica", "bold")
-            doc.text("REUNIONES Y PROCESOS", 105, doc.lastAutoTable.finalY + 8, { align: "center" })
-
-            doc.autoTable({
-                startY: doc.lastAutoTable.finalY + 12,
-                theme: "grid",
-                styles: { fontSize: 9, cellPadding: 2 },
-                columnStyles: {
-                    0: { fontStyle: "bold", fillColor: [240, 240, 240], cellWidth: 70 },
-                    2: { fontStyle: "bold", fillColor: [240, 240, 240], cellWidth: 70 },
+                    0: { fontStyle: 'bold', fillColor: azulClaro, cellWidth: 30 },
+                    1: { cellWidth: 24, fillColor: blanco },
+                    2: { fontStyle: 'bold', fillColor: azulClaro, cellWidth: 30 },
+                    3: { cellWidth: 24, fillColor: blanco },
+                    4: { fontStyle: 'bold', fillColor: azulClaro, cellWidth: 38 },
+                    5: { cellWidth: 24, fillColor: blanco },
+                    6: { fontStyle: 'bold', fillColor: azulClaro, cellWidth: 20 },
+                    7: { fillColor: blanco },
                 },
                 body: [
-                    // Planeación y Alcance
-                    [{ content: "PLANEACIÓN", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, 
-                    "", 
-                    { content: "ALCANCE", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, 
-                    ""],
-                    ["Miembros asistentes", reporte.miembros_asistentes, "Miembros asistentes", reporte.miembros_asistentes_alcance],
-                    ["Miembros faltantes", reporte.miembros_faltantes, "Miembros c/privilegios", reporte.miembros_privilegios],
-                    ["", "", "Amigos asistentes", reporte.amigos_asistentes],
-                    ["", "", "Jóvenes asistentes", reporte.jovenes_asistentes],
-
-                    // Proceso de Ganar
-                    [{ content: "PROCESO DE GANAR", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
-                    "Adolescentes asistentes", reporte.adolescentes_asistentes],
-                    ["Padres Espirituales", reporte.padres_espirituales, "Conversiones", reporte.conversiones],
-                    ["Amigos contactados", reporte.amigos_contactados, "Niños", reporte.ninos_alcance],
-                    ["Amigos a la fiesta", reporte.amigos_fiesta, "Ofrenda", `$${reporte.ofrenda_alcance}`],
-                    ["Amigos al E. Restauración", reporte.amigos_restauracion, 
-                    { content: "CULTO DOMINGO", styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } }, ""],
-                    ["Amigos bautizados", reporte.amigos_bautizados, "Miembros asistentes", reporte.miembros_culto],
-
-                    // Proceso de Consolidar
-                    [{ content: "PROCESO DE CONSOLIDAR", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
-                    "Adolescentes", reporte.adolescentes_culto],
-                    ["Bautizados etapa 1", reporte.bautizados_etapa1, "Niños", reporte.ninos_culto],
-                    ["Bautizados etapa 2", reporte.bautizados_etapa2, "Jóvenes", reporte.jovenes_culto],
-                    ["Bautizados etapa 3", reporte.bautizados_etapa3, "Amigos asistentes", reporte.amigos_culto],
-                    ["Re-encuentro", reporte.reencuentro, 
-                    { content: "OBSERVACIONES", styles: { fontStyle: "bold", fillColor: [220, 230, 240] } }, ""],
-                    ["Escuela ECO", reporte.escuela_eco, reporte.observaciones || "", ""],
-                    ["Escuela de Ministerios", reporte.escuela_ministerios, "", ""],
-
-                    // Proceso de Discipulado
-                    [{ content: "PROCESO DE DISCIPULADO", colSpan: 2, styles: { fontStyle: "bold", halign: "center", fillColor: [220, 230, 240] } },
-                    { content: "TOTAL OFRENDA", styles: { fontStyle: "bold", fillColor: [220, 230, 240] } },
-                    { content: `$${reporte.total_ofrenda}`, styles: { fontStyle: "bold" } }],
-                    ["Célula a multiplicarse", reporte.celula_multiplicarse ? "Sí" : "No", "", ""],
-                    ["Padres Espirituales N/célula", reporte.padres_espirituales_ncelula, "", ""],
-                    ["Niños", reporte.ninos_discipulado, "", ""],
-                    ["Ofrendas", `$${reporte.ofrendas_discipulado}`, "", ""],
+                    ["CÉLULA No.", reporte.celulas?.nombre || "—", "RED", reporte.celulas?.red || "—", "SECTOR", reporte.celulas?.sector || "—", "ZONA", reporte.celulas?.zona || "—"],
+                    ["N. LÍDER", { content: reporte.celulas?.nombre_lider || "—", colSpan: 3 }, "N. ASISTENTE", { content: reporte.celulas?.nombre_asistente || "—", colSpan: 3 }],
+                    ["N. ANFITRIÓN", { content: reporte.celulas?.nombre_anfitrion || "—", colSpan: 3 }, "FECHA", { content: reporte.fecha || "—", colSpan: 3 }],
                 ]
             })
+
+            // ── Título REUNIONES Y PROCESOS ──
+            const y0 = doc.lastAutoTable.finalY
+            doc.setFillColor(...azul)
+            doc.rect(8, y0, W - 16, 8, 'F')
+            doc.setTextColor(...blanco)
+            doc.setFont("helvetica", "bold")
+            doc.setFontSize(9)
+            doc.text("REUNIONES Y PROCESOS", W / 2, y0 + 5.5, { align: "center" })
+
+            // ── Dos columnas principales ──
+            const colLeft  = 8
+            const colMid   = W / 2 + 1
+            const colW     = (W - 16) / 2 - 1
+            let yL = y0 + 10   // cursor columna izquierda
+            let yR = y0 + 10   // cursor columna derecha
+
+            const rowH   = 5.5
+            const headH  = 6.5
+
+            function drawSectionHeader(x, y, w, label) {
+                doc.setFillColor(...azulMid)
+                doc.rect(x, y, w, headH, 'F')
+                doc.setTextColor(...blanco)
+                doc.setFont("helvetica", "bold")
+                doc.setFontSize(7.5)
+                doc.text(label, x + w / 2, y + 4.5, { align: "center" })
+                doc.setDrawColor(...lineColor)
+                doc.setLineWidth(0.3)
+                doc.rect(x, y, w, headH)
+                return y + headH
+            }
+
+            function drawRow(x, y, w, label, value, shade) {
+                if (shade) doc.setFillColor(...gris)
+                else doc.setFillColor(...blanco)
+                doc.rect(x, y, w, rowH, 'F')
+                doc.setDrawColor(...lineColor)
+                doc.setLineWidth(0.2)
+                doc.rect(x, y, w, rowH)
+                doc.setTextColor(...negro)
+                doc.setFont("helvetica", "normal")
+                doc.setFontSize(7)
+                doc.text(label, x + 2, y + 3.8)
+                doc.setFont("helvetica", "bold")
+                doc.text(String(value ?? 0), x + w - 2, y + 3.8, { align: "right" })
+                return y + rowH
+            }
+
+            // ── COLUMNA IZQUIERDA ──
+            // PLANEACIÓN
+            yL = drawSectionHeader(colLeft, yL, colW, "PLANEACIÓN")
+            yL = drawRow(colLeft, yL, colW, "Miembros asistentes", reporte.miembros_asistentes, false)
+            yL = drawRow(colLeft, yL, colW, "Miembros faltantes",  reporte.miembros_faltantes, true)
+
+            // PROCESO DE GANAR
+            yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE GANAR")
+            yL = drawRow(colLeft, yL, colW, "Padres Espirituales",      reporte.padres_espirituales, false)
+            yL = drawRow(colLeft, yL, colW, "Amigos contactados",       reporte.amigos_contactados, true)
+            yL = drawRow(colLeft, yL, colW, "Amigos a la fiesta",       reporte.amigos_fiesta, false)
+            yL = drawRow(colLeft, yL, colW, "Amigos al E. Restauración",reporte.amigos_restauracion, true)
+            yL = drawRow(colLeft, yL, colW, "Amigos bautizados",        reporte.amigos_bautizados, false)
+
+            // PROCESO DE CONSOLIDAR
+            yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE CONSOLIDAR")
+            yL = drawRow(colLeft, yL, colW, "Bautizados etapa 1",    reporte.bautizados_etapa1, false)
+            yL = drawRow(colLeft, yL, colW, "Bautizados etapa 2",    reporte.bautizados_etapa2, true)
+            yL = drawRow(colLeft, yL, colW, "Bautizados etapa 3",    reporte.bautizados_etapa3, false)
+            yL = drawRow(colLeft, yL, colW, "Re-encuentro",          reporte.reencuentro, true)
+            yL = drawRow(colLeft, yL, colW, "Escuela ECO",           reporte.escuela_eco, false)
+            yL = drawRow(colLeft, yL, colW, "Escuela de Ministerios",reporte.escuela_ministerios, true)
+
+            // PROCESO DE DISCIPULADO
+            yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE DISCIPULADO")
+            yL = drawRow(colLeft, yL, colW, "Célula a multiplicarse",      reporte.celula_multiplicarse ? "Sí" : "No", false)
+            yL = drawRow(colLeft, yL, colW, "Padres Espirituales N/célula", reporte.padres_espirituales_ncelula, true)
+            yL = drawRow(colLeft, yL, colW, "Niños",                       reporte.ninos_discipulado, false)
+            yL = drawRow(colLeft, yL, colW, "Ofrendas",                    `$${reporte.ofrendas_discipulado || 0}`, true)
+
+            // ── COLUMNA DERECHA ──
+            // ALCANCE
+            yR = drawSectionHeader(colMid, yR, colW, "ALCANCE")
+            yR = drawRow(colMid, yR, colW, "Miembros asistentes",    reporte.miembros_asistentes_alcance, false)
+            yR = drawRow(colMid, yR, colW, "Miembros c/privilegios", reporte.miembros_privilegios, true)
+            yR = drawRow(colMid, yR, colW, "Amigos asistentes",      reporte.amigos_asistentes, false)
+            yR = drawRow(colMid, yR, colW, "Jóvenes asistentes",     reporte.jovenes_asistentes, true)
+            yR = drawRow(colMid, yR, colW, "Adolescentes asistentes",reporte.adolescentes_asistentes, false)
+            yR = drawRow(colMid, yR, colW, "Conversiones",           reporte.conversiones, true)
+            yR = drawRow(colMid, yR, colW, "Niños",                  reporte.ninos_alcance, false)
+            yR = drawRow(colMid, yR, colW, "Ofrenda",                `$${reporte.ofrenda_alcance || 0}`, true)
+
+            // CULTO DOMINGO
+            yR = drawSectionHeader(colMid, yR + 1, colW, "CULTO DOMINGO")
+            yR = drawRow(colMid, yR, colW, "Miembros asistentes", reporte.miembros_culto, false)
+            yR = drawRow(colMid, yR, colW, "Adolescentes",        reporte.adolescentes_culto, true)
+            yR = drawRow(colMid, yR, colW, "Niños",               reporte.ninos_culto, false)
+            yR = drawRow(colMid, yR, colW, "Jóvenes",             reporte.jovenes_culto, true)
+            yR = drawRow(colMid, yR, colW, "Amigos asistentes",   reporte.amigos_culto, false)
+
+            // OBSERVACIONES
+            yR = drawSectionHeader(colMid, yR + 1, colW, "OBSERVACIONES")
+            const obsH = Math.max(yL - yR, 15)
+            doc.setFillColor(...blanco)
+            doc.setDrawColor(...lineColor)
+            doc.setLineWidth(0.3)
+            doc.rect(colMid, yR, colW, obsH, 'FD')
+            if (reporte.observaciones) {
+                doc.setTextColor(...negro)
+                doc.setFont("helvetica", "normal")
+                doc.setFontSize(7)
+                const lines = doc.splitTextToSize(reporte.observaciones, colW - 4)
+                doc.text(lines, colMid + 2, yR + 4)
+            }
+            yR += obsH
+
+            // ── TOTAL OFRENDA (pie) ──
+            const yFinal = Math.max(yL, yR) + 2
+            doc.setFillColor(...azul)
+            doc.rect(8, yFinal, W - 16, 8, 'F')
+            doc.setTextColor(...blanco)
+            doc.setFont("helvetica", "bold")
+            doc.setFontSize(8)
+            doc.text("TOTAL OFRENDA", 20, yFinal + 5.5)
+            doc.text(`MXN: $${reporte.ofrenda_pesos || 0}     USD: $${reporte.ofrenda_dolares || 0}     TOTAL: $${reporte.total_ofrenda || 0}`, W - 12, yFinal + 5.5, { align: "right" })
+            
+            // Borde dinámico
+            const alturaTotal = yFinal + 8 - 8
+            doc.setDrawColor(...lineColor)
+            doc.setLineWidth(0.6)
+            doc.rect(8, 8, W - 16, alturaTotal)
 
             doc.save(`reporte-${reporte.celulas?.nombre || id}-${reporte.fecha}.pdf`)
         }
@@ -1239,5 +1372,6 @@
         // Iniciar
         cargarDashboard()
     </script>
+    <img id="logo_iafcj" src="/static/logo_iafcj.png" style="display:none">
 </body>
 </html>

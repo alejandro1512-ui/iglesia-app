@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.staticfiles import StaticFiles       
+from fastapi.responses import FileResponse          
 from pydantic import BaseModel
 from supabase import create_client
 from dotenv import load_dotenv
@@ -17,6 +19,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/admin")
+def admin():
+    return FileResponse("templates/admin.html")
+
+@app.get("/login")
+def login_page():
+    return FileResponse("templates/login.html")
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
