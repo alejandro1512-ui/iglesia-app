@@ -108,31 +108,12 @@
                     </button>
                 </li>
                 <li>
-                    <button onclick="mostrarSeccion('asistencia')" id="nav-asistencia"
-                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
-                        style="color: #e8e0d0;">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                        <span class="nav-texto sidebar-extra">Asistencia</span>
-                    </button>
-                </li>
-                <li>
-                    <button onclick="mostrarSeccion('finanzas')" id="nav-finanzas"
-                        class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
-                        style="color: #e8e0d0;">
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                        <span class="nav-texto sidebar-extra">Finanzas</span>
-                    </button>
-                </li>
-                <li>
                     <button onclick="mostrarSeccion('configuracion')" id="nav-configuracion"
                         class="nav-btn w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition hover:bg-[#4a6478]/50"
                         style="color: #e8e0d0;">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>
                         <span class="nav-texto sidebar-extra">Configuracion</span>
                     </button>
@@ -182,7 +163,8 @@
         <!-- Secciones -->
         <div id="seccion-dashboard">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-sm font-medium" style="color: #8a9aa8;">Total miembros</p>
@@ -194,22 +176,23 @@
                     </div>
                 </div>
 
-                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-sm font-medium" style="color: #8a9aa8;">Anuncios activos</p>
-                            <p class="text-3xl font-bold mt-2" style="color: #e8e0d0;" id="totalAnuncios">—</p>
+                            <p class="text-sm font-medium" style="color: #8a9aa8;">Células activas</p>
+                            <p class="text-3xl font-bold mt-2" style="color: #e8e0d0;" id="totalCelulas">—</p>
                         </div>
                         <div class="p-2 rounded-lg" style="background-color: #4a6478; color: #e8e0d0;">
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74, 100, 120, 0.4);">
+                <div class="rounded-xl p-6 border shadow-lg transition-transform hover:-translate-y-1" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
                     <p class="text-sm font-medium" style="color: #8a9aa8;">Iglesia</p>
                     <p class="text-xl font-bold mt-2 truncate" style="color: #e8e0d0;" id="nombreIglesia">—</p>
                 </div>
+
             </div>
         </div>
 
@@ -411,12 +394,12 @@
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
-                            <input id="r_miembros_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_miembros_asistentes" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros faltantes</label>
-                            <input id="r_miembros_faltantes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_miembros_faltantes" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                     </div>
@@ -426,27 +409,27 @@
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Padres espirituales</label>
-                            <input id="r_padres_espirituales" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_padres_espirituales" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos contactados</label>
-                            <input id="r_amigos_contactados" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_contactados" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos a la fiesta</label>
-                            <input id="r_amigos_fiesta" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_fiesta" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos al E. Restauración</label>
-                            <input id="r_amigos_restauracion" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_restauracion" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos bautizados</label>
-                            <input id="r_amigos_bautizados" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_bautizados" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                     </div>
@@ -456,77 +439,86 @@
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 1</label>
-                            <input id="r_bautizados_etapa1" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_bautizados_etapa1" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 2</label>
-                            <input id="r_bautizados_etapa2" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_bautizados_etapa2" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Bautizados etapa 3</label>
-                            <input id="r_bautizados_etapa3" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_bautizados_etapa3" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Re-encuentro</label>
-                            <input id="r_reencuentro" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_reencuentro" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Escuela ECO</label>
-                            <input id="r_escuela_eco" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_escuela_eco" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Escuela de Ministerios</label>
-                            <input id="r_escuela_ministerios" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_escuela_ministerios" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                     </div>
 
                     <!-- Alcance -->
                     <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Alcance</h3>
-                    <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="grid grid-cols-3 gap-4 mb-4">
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
-                            <input id="r_miembros_asistentes_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_miembros_asistentes_alcance" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros c/privilegios</label>
-                            <input id="r_miembros_privilegios" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_miembros_privilegios" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos asistentes</label>
-                            <input id="r_amigos_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_asistentes" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Jóvenes asistentes</label>
-                            <input id="r_jovenes_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_jovenes_asistentes" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Adolescentes asistentes</label>
-                            <input id="r_adolescentes_asistentes" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_adolescentes_asistentes" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Conversiones</label>
-                            <input id="r_conversiones" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_conversiones" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Niños</label>
-                            <input id="r_ninos_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_ninos_alcance" type="number" value="0" min="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Ofrenda Alcance separada -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrenda (MXN)</label>
+                            <input id="r_ofrenda_alcance_mxn" type="number" value="0" min="0" step="0.01" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
-                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrenda</label>
-                            <input id="r_ofrenda_alcance" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrenda (USD)</label>
+                            <input id="r_ofrenda_alcance_usd" type="number" value="0" min="0" step="0.01" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                     </div>
@@ -536,51 +528,70 @@
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Miembros asistentes</label>
-                            <input id="r_miembros_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_miembros_culto" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Adolescentes</label>
-                            <input id="r_adolescentes_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_adolescentes_culto" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Niños</label>
-                            <input id="r_ninos_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_ninos_culto" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Jóvenes</label>
-                            <input id="r_jovenes_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_jovenes_culto" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
                             <label class="text-xs mb-1 block" style="color: #8a9aa8;">Amigos asistentes</label>
-                            <input id="r_amigos_culto" type="number" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                            <input id="r_amigos_culto" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
                                 style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                     </div>
 
-                    <!-- Ofrenda -->
+                    <!-- Proceso de Discipulado -->
+                    <h3 class="font-semibold mb-3" style="color: #e8e0d0;">Proceso de Discipulado</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Célula a multiplicarse</label>
+                            <select id="r_celula_multiplicarse" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                                <option value="false">No</option>
+                                <option value="true">Sí</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Padres Espirituales N/célula</label>
+                            <input id="r_padres_espirituales_ncelula" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Niños</label>
+                            <input id="r_ninos_discipulado" type="number" min="0" value="0" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                    </div>
+
+                    <!-- Ofrenda Alcance separada -->
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Ofrenda en pesos (MXN)</label>
-                            <div class="relative">
-                                <span class="absolute left-3 top-2.5 text-sm" style="color: #8a9aa8;">$</span>
-                                <input id="r_ofrenda_pesos" type="number" value="0" min="0" step="0.01"
-                                    class="w-full pl-7 pr-4 py-2 rounded-xl border outline-none"
-                                    style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                            </div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrendas (MXN)</label>
+                            <input id="r_ofrendas_discipulado_mxn" type="number" value="0" min="0" step="0.01" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
                         <div>
-                            <label class="text-sm mb-1 block" style="color: #8a9aa8;">Ofrenda en dólares (USD)</label>
-                            <div class="relative">
-                                <span class="absolute left-3 top-2.5 text-sm" style="color: #8a9aa8;">$</span>
-                                <input id="r_ofrenda_dolares" type="number" value="0" min="0" step="0.01"
-                                    class="w-full pl-7 pr-4 py-2 rounded-xl border outline-none"
-                                    style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                            </div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Ofrendas (USD)</label>
+                            <input id="r_ofrendas_discipulado_usd" type="number" value="0" min="0" step="0.01" class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
                         </div>
+                    </div>
+
+                    <!-- Ofrenda total -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
                         <div class="col-span-2">
                             <label class="text-sm mb-1 block" style="color: #8a9aa8;">Observaciones</label>
                             <textarea id="r_observaciones" rows="3" class="w-full px-4 py-2 rounded-xl border outline-none"
@@ -600,21 +611,29 @@
             <!-- Tab: Ver reportes -->
             <div id="tab-contenido-ver-reportes" class="hidden">
                 <div class="rounded-xl p-6" style="background-color: #243040;">
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex gap-3">
+                            <button onclick="seleccionarTodos(true)"
+                                class="px-4 py-2 rounded-xl text-sm transition"
+                                style="background-color: #1a2330; color: #8a9aa8;">
+                                Seleccionar todos
+                            </button>
+                            <button onclick="seleccionarTodos(false)"
+                                class="px-4 py-2 rounded-xl text-sm transition"
+                                style="background-color: #1a2330; color: #8a9aa8;">
+                                Deseleccionar
+                            </button>
+                        </div>
+                        <button onclick="exportarReporteGeneral()"
+                            class="px-6 py-2 rounded-xl font-semibold transition"
+                            style="background-color: #2a4a30; color: #e8e0d0;">
+                            Reporte General PDF
+                        </button>
+                    </div>
+
                     <div id="listaReportes"></div>
                 </div>
-            </div>
-
-        </div>
-
-        <div id="seccion-asistencia" class="hidden">
-            <div class="rounded-xl p-6" style="background-color: #243040;">
-                <p style="color: #8a9aa8;">Módulo de asistencia — próximamente</p>
-            </div>
-        </div>
-
-        <div id="seccion-finanzas" class="hidden">
-            <div class="rounded-xl p-6" style="background-color: #243040;">
-                <p style="color: #8a9aa8;">Módulo de finanzas — próximamente</p>
             </div>
         </div>
 
@@ -647,10 +666,10 @@
 
         // Cargar dashboard
         async function cargarDashboard() {
-            const miembros = await fetch(`${API}/miembros`, { headers }).then(r => r.json())
-            const anuncios = await fetch(`${API}/anuncios`).then(r => r.json())
-            document.getElementById("totalMiembros").textContent = miembros.length
-            document.getElementById("totalAnuncios").textContent = anuncios.length
+            const totales = await fetch(`${API}/dashboard/totales`, { headers }).then(r => r.json())
+            document.getElementById("totalMiembros").textContent = totales.total_miembros
+            document.getElementById("totalCelulas").textContent = totales.celulas_activas
+            document.getElementById("nombreIglesia").textContent = localStorage.getItem("iglesia")
         }
 
         // Navegación
@@ -1042,6 +1061,11 @@
                 reencuentro: parseInt(document.getElementById("r_reencuentro").value),
                 escuela_eco: parseInt(document.getElementById("r_escuela_eco").value),
                 escuela_ministerios: parseInt(document.getElementById("r_escuela_ministerios").value),
+                celula_multiplicarse: document.getElementById("r_celula_multiplicarse").value === "true",
+                padres_espirituales_ncelula: parseInt(document.getElementById("r_padres_espirituales_ncelula").value),
+                ninos_discipulado: parseInt(document.getElementById("r_ninos_discipulado").value),
+                ofrendas_discipulado: parseFloat(document.getElementById("r_ofrendas_discipulado_mxn").value),
+                ofrendas_discipulado_usd: parseFloat(document.getElementById("r_ofrendas_discipulado_usd").value),
                 miembros_asistentes_alcance: parseInt(document.getElementById("r_miembros_asistentes_alcance").value),
                 miembros_privilegios: parseInt(document.getElementById("r_miembros_privilegios").value),
                 amigos_asistentes: parseInt(document.getElementById("r_amigos_asistentes").value),
@@ -1049,15 +1073,15 @@
                 adolescentes_asistentes: parseInt(document.getElementById("r_adolescentes_asistentes").value),
                 conversiones: parseInt(document.getElementById("r_conversiones").value),
                 ninos_alcance: parseInt(document.getElementById("r_ninos_alcance").value),
-                ofrenda_alcance: parseFloat(document.getElementById("r_ofrenda_alcance").value),
+                ofrenda_alcance: parseFloat(document.getElementById("r_ofrenda_alcance_mxn").value),
+                ofrenda_alcance_usd: parseFloat(document.getElementById("r_ofrenda_alcance_usd").value),
                 miembros_culto: parseInt(document.getElementById("r_miembros_culto").value),
                 adolescentes_culto: parseInt(document.getElementById("r_adolescentes_culto").value),
                 ninos_culto: parseInt(document.getElementById("r_ninos_culto").value),
                 jovenes_culto: parseInt(document.getElementById("r_jovenes_culto").value),
                 amigos_culto: parseInt(document.getElementById("r_amigos_culto").value),
-                ofrenda_pesos: parseFloat(document.getElementById("r_ofrenda_pesos").value),
-                ofrenda_dolares: parseFloat(document.getElementById("r_ofrenda_dolares").value),
-                total_ofrenda: parseFloat(document.getElementById("r_ofrenda_pesos").value) + parseFloat(document.getElementById("r_ofrenda_dolares").value),
+                ofrenda_pesos: parseFloat(document.getElementById("r_ofrenda_alcance_mxn").value) + parseFloat(document.getElementById("r_ofrendas_discipulado_mxn").value),
+                ofrenda_dolares: parseFloat(document.getElementById("r_ofrenda_alcance_usd").value) + parseFloat(document.getElementById("r_ofrendas_discipulado_usd").value),
                 observaciones: document.getElementById("r_observaciones").value
             }
 
@@ -1081,6 +1105,10 @@
                 })
                 document.getElementById("r_observaciones").value = ""
                 document.getElementById("reporteFecha").value = ""
+                document.getElementById("r_celula_multiplicarse").value = "false"
+                document.getElementById("r_padres_espirituales_ncelula").value = "0"
+                document.getElementById("r_ninos_discipulado").value = "0"
+                document.getElementById("r_ofrendas_discipulado").value = "0"
                 
                 mostrarTabCelula("ver-reportes")
             }
@@ -1100,37 +1128,39 @@
 
             datos.forEach(reporte => {
                 const div = document.createElement("div")
-                div.className = "p-4 rounded-xl mb-3"
+                div.className = "flex items-center gap-3 p-4 rounded-xl mb-3"
                 div.style.backgroundColor = "#1a2330"
                 div.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="font-medium" style="color: #e8e0d0;">
-                                ${reporte.celulas?.nombre || "Célula"} — ${reporte.fecha}
-                            </p>
-                            <p class="text-sm mt-1" style="color: #8a9aa8;">
-                                Miembros: ${reporte.miembros_asistentes} | 
-                                Conversiones: ${reporte.conversiones} | 
-                                Ofrenda total: $${reporte.total_ofrenda}
-                            </p>
-                            ${reporte.observaciones ? `<p class="text-xs mt-2" style="color: #8a9aa8;">${reporte.observaciones}</p>` : ""}
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="exportarPDF(${reporte.id})"
-                                class="px-3 py-1 rounded-lg text-xs"
-                                style="background-color: #2a4a30; color: #e8e0d0;">
-                                PDF
-                            </button>
-                            <button onclick="eliminarReporte(${reporte.id})"
-                                class="px-3 py-1 rounded-lg text-xs"
-                                style="background-color: #4a2030; color: #e8e0d0;">
-                                Eliminar
-                            </button>
-                        </div>
+                    <input type="checkbox" class="reporte-check w-4 h-4 accent-[#4a6478]" data-id="${reporte.id}">
+                    <div class="flex-1">
+                        <p class="font-medium" style="color: #e8e0d0;">
+                            ${reporte.celulas?.nombre || "Célula"} — ${reporte.fecha}
+                        </p>
+                        <p class="text-sm mt-1" style="color: #8a9aa8;">
+                            Miembros: ${reporte.miembros_asistentes} | 
+                            Conversiones: ${reporte.conversiones} | 
+                            MXN: $${reporte.ofrenda_pesos} | USD: $${reporte.ofrenda_dolares}
+                        </p>
+                        ${reporte.observaciones ? `<p class="text-xs mt-2" style="color: #8a9aa8;">${reporte.observaciones}</p>` : ""}
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="exportarPDF(${reporte.id})"
+                            class="px-3 py-1 rounded-lg text-xs"
+                            style="background-color: #2a4a30; color: #e8e0d0;">
+                            PDF
+                        </button>
+                        <button onclick="eliminarReporte(${reporte.id})"
+                            class="px-3 py-1 rounded-lg text-xs"
+                            style="background-color: #4a2030; color: #e8e0d0;">
+                            Eliminar
+                        </button>
                     </div>
                 `
                 lista.appendChild(div)
             })
+
+            // Guardar datos para el reporte general
+            window._reportesData = datos
         }
 
         // Eliminar reporte
@@ -1144,14 +1174,18 @@
         }
 
         // Exportar PDF
-        async function exportarPDF(id) {
+        async function exportarPDF(id, datosExternos = null) {
             const logo = document.getElementById('logo_iafcj')
-            console.log('Logo element:', logo)
-            console.log('Logo src:', logo?.src)
-            const respuesta = await fetch(`${API}/reportes`, { headers })
-            const datos = await respuesta.json()
-            const reporte = datos.find(r => r.id === id)
-            if (!reporte) return
+
+            let reporte
+            if (datosExternos) {
+                reporte = datosExternos
+            } else {
+                const respuesta = await fetch(`${API}/reportes`, { headers })
+                const datos = await respuesta.json()
+                reporte = datos.find(r => r.id === id)
+                if (!reporte) return
+            }
 
             const { jsPDF } = window.jspdf
             const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' })
@@ -1169,10 +1203,8 @@
             doc.setFillColor(...azul)
             doc.rect(8, 8, W - 16, 22, 'F')
 
-            // Logo
             doc.addImage(logo, 'PNG', 11, 9.5, 28, 18)
 
-            // Textos del header
             doc.setTextColor(...blanco)
             doc.setFont("helvetica", "bold")
             doc.setFontSize(9.5)
@@ -1180,7 +1212,6 @@
             doc.setFontSize(12)
             doc.text("REPORTE DE CÉLULA SEMANAL", W / 2, 25, { align: "center" })
 
-            // ── Info general (tabla de 4 col) ──
             doc.autoTable({
                 startY: 32,
                 margin: { left: 8, right: 8 },
@@ -1204,7 +1235,6 @@
                 ]
             })
 
-            // ── Título REUNIONES Y PROCESOS ──
             const y0 = doc.lastAutoTable.finalY
             doc.setFillColor(...azul)
             doc.rect(8, y0, W - 16, 8, 'F')
@@ -1213,12 +1243,11 @@
             doc.setFontSize(9)
             doc.text("REUNIONES Y PROCESOS", W / 2, y0 + 5.5, { align: "center" })
 
-            // ── Dos columnas principales ──
             const colLeft  = 8
             const colMid   = W / 2 + 1
             const colW     = (W - 16) / 2 - 1
-            let yL = y0 + 10   // cursor columna izquierda
-            let yR = y0 + 10   // cursor columna derecha
+            let yL = y0 + 10
+            let yR = y0 + 10
 
             const rowH   = 5.5
             const headH  = 6.5
@@ -1252,13 +1281,10 @@
                 return y + rowH
             }
 
-            // ── COLUMNA IZQUIERDA ──
-            // PLANEACIÓN
             yL = drawSectionHeader(colLeft, yL, colW, "PLANEACIÓN")
             yL = drawRow(colLeft, yL, colW, "Miembros asistentes", reporte.miembros_asistentes, false)
             yL = drawRow(colLeft, yL, colW, "Miembros faltantes",  reporte.miembros_faltantes, true)
 
-            // PROCESO DE GANAR
             yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE GANAR")
             yL = drawRow(colLeft, yL, colW, "Padres Espirituales",      reporte.padres_espirituales, false)
             yL = drawRow(colLeft, yL, colW, "Amigos contactados",       reporte.amigos_contactados, true)
@@ -1266,7 +1292,6 @@
             yL = drawRow(colLeft, yL, colW, "Amigos al E. Restauración",reporte.amigos_restauracion, true)
             yL = drawRow(colLeft, yL, colW, "Amigos bautizados",        reporte.amigos_bautizados, false)
 
-            // PROCESO DE CONSOLIDAR
             yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE CONSOLIDAR")
             yL = drawRow(colLeft, yL, colW, "Bautizados etapa 1",    reporte.bautizados_etapa1, false)
             yL = drawRow(colLeft, yL, colW, "Bautizados etapa 2",    reporte.bautizados_etapa2, true)
@@ -1275,15 +1300,13 @@
             yL = drawRow(colLeft, yL, colW, "Escuela ECO",           reporte.escuela_eco, false)
             yL = drawRow(colLeft, yL, colW, "Escuela de Ministerios",reporte.escuela_ministerios, true)
 
-            // PROCESO DE DISCIPULADO
             yL = drawSectionHeader(colLeft, yL + 1, colW, "PROCESO DE DISCIPULADO")
-            yL = drawRow(colLeft, yL, colW, "Célula a multiplicarse",      reporte.celula_multiplicarse ? "Sí" : "No", false)
+            yL = drawRow(colLeft, yL, colW, "Célula a multiplicarse",       reporte.celula_multiplicarse ? "Sí" : "No", false)
             yL = drawRow(colLeft, yL, colW, "Padres Espirituales N/célula", reporte.padres_espirituales_ncelula, true)
-            yL = drawRow(colLeft, yL, colW, "Niños",                       reporte.ninos_discipulado, false)
-            yL = drawRow(colLeft, yL, colW, "Ofrendas",                    `$${reporte.ofrendas_discipulado || 0}`, true)
+            yL = drawRow(colLeft, yL, colW, "Niños",                        reporte.ninos_discipulado, false)
+            yL = drawRow(colLeft, yL, colW, "Ofrendas MXN", `$${reporte.ofrendas_discipulado || 0}`, true)
+            yL = drawRow(colLeft, yL, colW, "Ofrendas USD", `$${reporte.ofrendas_discipulado_usd || 0}`, false)
 
-            // ── COLUMNA DERECHA ──
-            // ALCANCE
             yR = drawSectionHeader(colMid, yR, colW, "ALCANCE")
             yR = drawRow(colMid, yR, colW, "Miembros asistentes",    reporte.miembros_asistentes_alcance, false)
             yR = drawRow(colMid, yR, colW, "Miembros c/privilegios", reporte.miembros_privilegios, true)
@@ -1292,9 +1315,9 @@
             yR = drawRow(colMid, yR, colW, "Adolescentes asistentes",reporte.adolescentes_asistentes, false)
             yR = drawRow(colMid, yR, colW, "Conversiones",           reporte.conversiones, true)
             yR = drawRow(colMid, yR, colW, "Niños",                  reporte.ninos_alcance, false)
-            yR = drawRow(colMid, yR, colW, "Ofrenda",                `$${reporte.ofrenda_alcance || 0}`, true)
+            yR = drawRow(colMid, yR, colW, "Ofrenda MXN", `$${reporte.ofrenda_alcance || 0}`, true)
+            yR = drawRow(colMid, yR, colW, "Ofrenda USD", `$${reporte.ofrenda_alcance_usd || 0}`, false)
 
-            // CULTO DOMINGO
             yR = drawSectionHeader(colMid, yR + 1, colW, "CULTO DOMINGO")
             yR = drawRow(colMid, yR, colW, "Miembros asistentes", reporte.miembros_culto, false)
             yR = drawRow(colMid, yR, colW, "Adolescentes",        reporte.adolescentes_culto, true)
@@ -1302,7 +1325,6 @@
             yR = drawRow(colMid, yR, colW, "Jóvenes",             reporte.jovenes_culto, true)
             yR = drawRow(colMid, yR, colW, "Amigos asistentes",   reporte.amigos_culto, false)
 
-            // OBSERVACIONES
             yR = drawSectionHeader(colMid, yR + 1, colW, "OBSERVACIONES")
             const obsH = Math.max(yL - yR, 15)
             doc.setFillColor(...blanco)
@@ -1318,7 +1340,9 @@
             }
             yR += obsH
 
-            // ── TOTAL OFRENDA (pie) ──
+            console.log('ofrenda_pesos:', reporte.ofrenda_pesos)
+            console.log('ofrenda_dolares:', reporte.ofrenda_dolares)
+
             const yFinal = Math.max(yL, yR) + 2
             doc.setFillColor(...azul)
             doc.rect(8, yFinal, W - 16, 8, 'F')
@@ -1326,15 +1350,80 @@
             doc.setFont("helvetica", "bold")
             doc.setFontSize(8)
             doc.text("TOTAL OFRENDA", 20, yFinal + 5.5)
-            doc.text(`MXN: $${reporte.ofrenda_pesos || 0}     USD: $${reporte.ofrenda_dolares || 0}     TOTAL: $${reporte.total_ofrenda || 0}`, W - 12, yFinal + 5.5, { align: "right" })
-            
-            // Borde dinámico
+            doc.text(`MXN: $${parseFloat(reporte.ofrenda_pesos) || 0}     USD: $${parseFloat(reporte.ofrenda_dolares) || 0}`, W - 12, yFinal + 5.5, { align: "right" })
+
             const alturaTotal = yFinal + 8 - 8
             doc.setDrawColor(...lineColor)
             doc.setLineWidth(0.6)
             doc.rect(8, 8, W - 16, alturaTotal)
 
-            doc.save(`reporte-${reporte.celulas?.nombre || id}-${reporte.fecha}.pdf`)
+            doc.save(`reporte-${reporte.celulas?.nombre || 'general'}-${reporte.fecha}.pdf`)
+        }
+
+        function seleccionarTodos(valor) {
+            document.querySelectorAll('.reporte-check').forEach(cb => cb.checked = valor)
+        }
+
+        // Funcion de exportar el total general de reportes
+        async function exportarReporteGeneral() {
+            const checks = document.querySelectorAll('.reporte-check:checked')
+            if (checks.length === 0) {
+                alert("Selecciona al menos un reporte")
+                return
+            }
+
+            const ids = Array.from(checks).map(cb => parseInt(cb.dataset.id))
+            const seleccionados = window._reportesData.filter(r => ids.includes(r.id))
+            const suma = (campo) => seleccionados.reduce((acc, r) => acc + (r[campo] || 0), 0)
+
+            const fechas = seleccionados.map(r => r.fecha).sort()
+
+            // Arma el objeto con el mismo formato que un reporte individual
+            const reporteGeneral = {
+                celulas: {
+                    nombre: `Reporte General (${seleccionados.length} reportes)`,
+                    red: "—", sector: "—", zona: "—",
+                    nombre_lider: "—", nombre_asistente: "—", nombre_anfitrion: "—"
+                },
+                fecha: `${fechas[0]} al ${fechas[fechas.length - 1]}`,
+                miembros_asistentes: suma("miembros_asistentes"),
+                miembros_faltantes: suma("miembros_faltantes"),
+                padres_espirituales: suma("padres_espirituales"),
+                amigos_contactados: suma("amigos_contactados"),
+                amigos_fiesta: suma("amigos_fiesta"),
+                amigos_restauracion: suma("amigos_restauracion"),
+                amigos_bautizados: suma("amigos_bautizados"),
+                bautizados_etapa1: suma("bautizados_etapa1"),
+                bautizados_etapa2: suma("bautizados_etapa2"),
+                bautizados_etapa3: suma("bautizados_etapa3"),
+                reencuentro: suma("reencuentro"),
+                escuela_eco: suma("escuela_eco"),
+                escuela_ministerios: suma("escuela_ministerios"),
+                celula_multiplicarse: false,
+                padres_espirituales_ncelula: suma("padres_espirituales_ncelula"),
+                ninos_discipulado: suma("ninos_discipulado"),
+                ofrendas_discipulado: suma("ofrendas_discipulado"),
+                ofrendas_discipulado_usd: suma("ofrendas_discipulado_usd"),
+                miembros_asistentes_alcance: suma("miembros_asistentes_alcance"),
+                miembros_privilegios: suma("miembros_privilegios"),
+                amigos_asistentes: suma("amigos_asistentes"),
+                jovenes_asistentes: suma("jovenes_asistentes"),
+                adolescentes_asistentes: suma("adolescentes_asistentes"),
+                conversiones: suma("conversiones"),
+                ninos_alcance: suma("ninos_alcance"),
+                ofrenda_alcance: suma("ofrenda_alcance"),
+                ofrenda_alcance_usd: suma("ofrenda_alcance_usd"),
+                miembros_culto: suma("miembros_culto"),
+                adolescentes_culto: suma("adolescentes_culto"),
+                ninos_culto: suma("ninos_culto"),
+                jovenes_culto: suma("jovenes_culto"),
+                amigos_culto: suma("amigos_culto"),
+                ofrenda_pesos: suma("ofrenda_pesos"),
+                ofrenda_dolares: suma("ofrenda_dolares"),
+                observaciones: `Reporte consolidado de ${seleccionados.length} células`
+            }
+
+            exportarPDF(null, reporteGeneral)
         }
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {

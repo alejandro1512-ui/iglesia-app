@@ -222,6 +222,7 @@ class ReporteCelula(BaseModel):
     padres_espirituales_ncelula: int = 0
     ninos_discipulado: int = 0
     ofrendas_discipulado: float = 0
+    ofrendas_discipulado_usd: float = 0
     miembros_asistentes_alcance: int = 0
     miembros_privilegios: int = 0
     amigos_asistentes: int = 0
@@ -230,12 +231,14 @@ class ReporteCelula(BaseModel):
     conversiones: int = 0
     ninos_alcance: int = 0
     ofrenda_alcance: float = 0
+    ofrenda_alcance_usd: float = 0
     miembros_culto: int = 0
     adolescentes_culto: int = 0
     ninos_culto: int = 0
     jovenes_culto: int = 0
     amigos_culto: int = 0
-    total_ofrenda: float = 0
+    ofrenda_pesos: float = 0
+    ofrenda_dolares: float = 0
     observaciones: str = ""
 
 @app.get("/reportes")
@@ -262,3 +265,16 @@ def actualizar_reporte(reporte_id: int, reporte: ReporteCelula, perfil = Depends
 def eliminar_reporte(reporte_id: int, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
     respuesta = supabase.table("reportes_celula").delete().eq("id", reporte_id).execute()
     return respuesta.data
+
+@app.get("/dashboard/totales")
+def obtener_totales(perfil = Depends(verificar_token)):
+    iglesia = supabase.table("perfiles").select("iglesia").eq("id", str(perfil.id)).execute()
+    nombre_iglesia = iglesia.data[0]["iglesia"]
+    
+    celulas = supabase.table("celulas").select("id").eq("iglesia", nombre_iglesia).execute()
+    miembros = supabase.table("perfiles").select("id").eq("iglesia", nombre_iglesia).execute()
+
+    return {
+        "celulas_activas": len(celulas.data),
+        "total_miembros": len(miembros.data),
+    }
