@@ -638,15 +638,54 @@
         </div>
 
         <div id="seccion-configuracion" class="hidden">
-            <div class="rounded-xl p-6" style="background-color: #243040;">
-                <p style="color: #8a9aa8;">Módulo de configuración — próximamente</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="rounded-xl p-6 border shadow-lg" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
+                    <h3 class="text-xl font-bold mb-4" style="color: #e8e0d0;">Información de la Iglesia</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre de la Congregación</label>
+                            <input id="config-nombre-iglesia" type="text" 
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <button id="btnGuardarIglesia"
+                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                            style="background-color: #4a6478; color: #e8e0d0;">
+                            Actualizar Nombre
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rounded-xl p-6 border shadow-lg" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
+                    <h3 class="text-xl font-bold mb-4" style="color: #e8e0d0;">Seguridad</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nueva Contraseña</label>
+                            <input id="config-new-password" type="password" 
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Confirmar Contraseña</label>
+                            <input id="config-confirm-password" type="password" 
+                                class="w-full px-4 py-2 rounded-xl border outline-none"
+                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <button id="btnCambiarPassword"
+                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
+                            style="background-color: #4a6478; color: #e8e0d0;">
+                            Cambiar Contraseña
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
-
     </main>
 
     <script>
-        const API = "http://127.0.0.1:8000"
+        const API = window.location.origin;
         const token = localStorage.getItem("token")
         const rol = localStorage.getItem("rol")
         const iglesia = localStorage.getItem("iglesia")
@@ -1425,6 +1464,52 @@
 
             exportarPDF(null, reporteGeneral)
         }
+
+        // Cargar datos iniciales en configuración
+        function cargarConfiguracion() {
+            document.getElementById("config-nombre-iglesia").value = localStorage.getItem("iglesia") || "";
+        }
+
+        // Evento para actualizar nombre de la iglesia
+        document.getElementById("btnGuardarIglesia").addEventListener("click", async () => {
+            const nuevoNombre = document.getElementById("config-nombre-iglesia").value;
+            if (!nuevoNombre) return;
+
+            const res = await fetch(`${API}/configuracion/iglesia`, {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify({ nombre_iglesia: nuevoNombre })
+            });
+
+            if (res.ok) {
+                localStorage.setItem("iglesia", nuevoNombre);
+                document.getElementById("nombreIglesia").textContent = nuevoNombre;
+                alert("Nombre de la iglesia actualizado");
+            }
+        });
+
+        // Evento para cambiar contraseña
+        document.getElementById("btnCambiarPassword").addEventListener("click", async () => {
+            const pass = document.getElementById("config-new-password").value;
+            const confirm = document.getElementById("config-confirm-password").value;
+
+            if (!pass || pass !== confirm) {
+                alert("Las contraseñas no coinciden o están vacías");
+                return;
+            }
+
+            const res = await fetch(`${API}/configuracion/password`, {
+                method: "PUT",
+                headers: headers,
+                body: JSON.stringify({ password: pass })
+            });
+
+            if (res.ok) {
+                alert("Contraseña actualizada correctamente");
+                document.getElementById("config-new-password").value = "";
+                document.getElementById("config-confirm-password").value = "";
+            }
+        });
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {
             const texto = document.getElementById("textoAnuncio").value

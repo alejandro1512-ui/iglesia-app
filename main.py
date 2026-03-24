@@ -44,6 +44,12 @@ class LoginData(BaseModel):
     email: str
     password: str
 
+class ConfigIglesia(BaseModel):
+    nombre_iglesia: str
+
+class ConfigPassword(BaseModel):
+    password: str
+
 # Login
 @app.post("/login")
 def login(datos: LoginData):
@@ -278,3 +284,31 @@ def obtener_totales(perfil = Depends(verificar_token)):
         "celulas_activas": len(celulas.data),
         "total_miembros": len(miembros.data),
     }
+
+# ─── CONFIGURACIÓN ──────────────────────────────────
+
+@app.put("/configuracion/iglesia")
+def actualizar_nombre_iglesia(datos: ConfigIglesia, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
+    try:
+        # Actualizar el nombre de la iglesia en el perfil del usuario actual
+        # y opcionalmente podrías extender esto para actualizarlo en todos los miembros
+        respuesta = supabase.table("perfiles").update({
+            "iglesia": datos.nombre_iglesia
+        }).eq("id", perfil["id"]).execute()
+        
+        return {"mensaje": "Nombre de iglesia actualizado", "nuevo_nombre": datos.nombre_iglesia}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.put("/configuracion/password")
+def cambiar_password(datos: ConfigPassword, usuario = Depends(verificar_token)):
+    try:
+        # Supabase maneja la actualización del usuario autenticado actual
+        # Usamos supabase_admin para asegurar que el cambio se aplique vía ID
+        supabase_admin.auth.admin.update_user_by_id(
+            str(usuario.id),
+            {"password": datos.password}
+        )
+        return {"mensaje": "Contraseña actualizada correctamente"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
