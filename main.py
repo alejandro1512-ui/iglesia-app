@@ -44,11 +44,17 @@ class LoginData(BaseModel):
     email: str
     password: str
 
-class ConfigIglesia(BaseModel):
-    nombre_iglesia: str
+class ConfigIglesiaUsuario(BaseModel):
+    usuario_id: str
+    nueva_iglesia: str
 
-class ConfigPassword(BaseModel):
+class ConfigPasswordUsuario(BaseModel):
+    usuario_id: str
     password: str
+
+class CambiarRol(BaseModel):
+    usuario_id: str
+    nuevo_rol: str
 
 # Login
 @app.post("/login")
@@ -286,29 +292,22 @@ def obtener_totales(perfil = Depends(verificar_token)):
     }
 
 # ─── CONFIGURACIÓN ──────────────────────────────────
+@app.put("/configuracion/iglesia_usuario")
+def cambiar_iglesia_usuario(datos: ConfigIglesiaUsuario, perfil = Depends(verificar_rol(["super_admin"]))):
+    supabase.table("perfiles").update({"iglesia": datos.nueva_iglesia}).eq("id", datos.usuario_id).execute()
+    return {"mensaje": "Iglesia actualizada"}
 
-@app.put("/configuracion/iglesia")
-def actualizar_nombre_iglesia(datos: ConfigIglesia, perfil = Depends(verificar_rol(["super_admin", "pastor"]))):
-    try:
-        # Actualizar el nombre de la iglesia en el perfil del usuario actual
-        # y opcionalmente podrías extender esto para actualizarlo en todos los miembros
-        respuesta = supabase.table("perfiles").update({
-            "iglesia": datos.nombre_iglesia
-        }).eq("id", perfil["id"]).execute()
-        
-        return {"mensaje": "Nombre de iglesia actualizado", "nuevo_nombre": datos.nombre_iglesia}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+@app.put("/configuracion/password_usuario")
+def cambiar_password_usuario(datos: ConfigPasswordUsuario, perfil = Depends(verificar_rol(["super_admin"]))):
+    supabase_admin.auth.admin.update_user_by_id(datos.usuario_id, {"password": datos.password})
+    return {"mensaje": "Contraseña actualizada"}
 
-@app.put("/configuracion/password")
-def cambiar_password(datos: ConfigPassword, usuario = Depends(verificar_token)):
-    try:
-        # Supabase maneja la actualización del usuario autenticado actual
-        # Usamos supabase_admin para asegurar que el cambio se aplique vía ID
-        supabase_admin.auth.admin.update_user_by_id(
-            str(usuario.id),
-            {"password": datos.password}
-        )
-        return {"mensaje": "Contraseña actualizada correctamente"}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+@app.put("/configuracion/rol")
+def cambiar_rol(datos: CambiarRol, perfil = Depends(verificar_rol(["super_admin"]))):
+    supabase.table("perfiles").update({"rol": datos.nuevo_rol}).eq("id", datos.usuario_id).execute()
+    return {"mensaje": "Rol actualizado"}
+
+@app.get("/usuarios")
+def obtener_todos_usuarios(perfil = Depends(verificar_rol(["super_admin"]))):
+    usuarios = supabase.table("perfiles").select("*").execute()
+    return usuarios.data

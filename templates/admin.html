@@ -638,46 +638,11 @@
         </div>
 
         <div id="seccion-configuracion" class="hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Gestión de usuarios -->
                 <div class="rounded-xl p-6 border shadow-lg" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
-                    <h3 class="text-xl font-bold mb-4" style="color: #e8e0d0;">Información de la Iglesia</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nombre de la Congregación</label>
-                            <input id="config-nombre-iglesia" type="text" 
-                                class="w-full px-4 py-2 rounded-xl border outline-none"
-                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                        </div>
-                        <button id="btnGuardarIglesia"
-                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
-                            style="background-color: #4a6478; color: #e8e0d0;">
-                            Actualizar Nombre
-                        </button>
-                    </div>
-                </div>
-
-                <div class="rounded-xl p-6 border shadow-lg" style="background-color: #243040; border-color: rgba(74,100,120,0.4);">
-                    <h3 class="text-xl font-bold mb-4" style="color: #e8e0d0;">Seguridad</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nueva Contraseña</label>
-                            <input id="config-new-password" type="password" 
-                                class="w-full px-4 py-2 rounded-xl border outline-none"
-                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                        </div>
-                        <div>
-                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Confirmar Contraseña</label>
-                            <input id="config-confirm-password" type="password" 
-                                class="w-full px-4 py-2 rounded-xl border outline-none"
-                                style="background-color: #1a2330; border-color: #4a6478; color: #e8e0d0;">
-                        </div>
-                        <button id="btnCambiarPassword"
-                            class="px-6 py-2 rounded-xl font-semibold transition hover:opacity-90"
-                            style="background-color: #4a6478; color: #e8e0d0;">
-                            Cambiar Contraseña
-                        </button>
-                    </div>
+                    <h3 class="text-xl font-bold mb-4" style="color: #e8e0d0;">Gestión de Usuarios</h3>
+                    <div id="listaUsuarios"></div>
                 </div>
 
             </div>
@@ -750,7 +715,7 @@
                 cargarCelulas()
                 cargarCelulasSelect()
             }
-
+            if (seccion === "configuracion") cargarConfiguracion()
         }
         
         // Funcion para el menu lateral
@@ -1467,49 +1432,100 @@
 
         // Cargar datos iniciales en configuración
         function cargarConfiguracion() {
-            document.getElementById("config-nombre-iglesia").value = localStorage.getItem("iglesia") || "";
+            cargarUsuarios()
         }
 
-        // Evento para actualizar nombre de la iglesia
-        document.getElementById("btnGuardarIglesia").addEventListener("click", async () => {
-            const nuevoNombre = document.getElementById("config-nombre-iglesia").value;
-            if (!nuevoNombre) return;
+        async function cargarUsuarios() {
+            if (rol !== "super_admin") return
+            const respuesta = await fetch(`${API}/usuarios`, { headers })
+            const usuarios = await respuesta.json()
+            const lista = document.getElementById("listaUsuarios")
+            lista.innerHTML = ""
 
-            const res = await fetch(`${API}/configuracion/iglesia`, {
+            usuarios.forEach(usuario => {
+                const div = document.createElement("div")
+                div.className = "p-4 rounded-xl mb-3"
+                div.style.backgroundColor = "#1a2330"
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <p class="font-medium" style="color: #e8e0d0;">${usuario.email}</p>
+                            <p class="text-xs" style="color: #8a9aa8;">${usuario.rol} — ${usuario.iglesia}</p>
+                        </div>
+                        <button onclick="toggleEditUsuario('${usuario.id}')"
+                            class="px-3 py-1 rounded-lg text-xs"
+                            style="background-color: #4a6478; color: #e8e0d0;">
+                            Editar
+                        </button>
+                    </div>
+                    <div id="edit-${usuario.id}" class="hidden grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Rol</label>
+                            <select id="rol-${usuario.id}" class="w-full px-3 py-2 rounded-xl border outline-none text-sm"
+                                style="background-color: #243040; border-color: #4a6478; color: #e8e0d0;">
+                                <option value="miembro" ${usuario.rol === 'miembro' ? 'selected' : ''}>Miembro</option>
+                                <option value="lider_celula" ${usuario.rol === 'lider_celula' ? 'selected' : ''}>Líder célula</option>
+                                <option value="pastor" ${usuario.rol === 'pastor' ? 'selected' : ''}>Pastor</option>
+                                <option value="super_admin" ${usuario.rol === 'super_admin' ? 'selected' : ''}>Super Admin</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Iglesia</label>
+                            <input id="iglesia-${usuario.id}" type="text" value="${usuario.iglesia || ''}"
+                                class="w-full px-3 py-2 rounded-xl border outline-none text-sm"
+                                style="background-color: #243040; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div>
+                            <label class="text-xs mb-1 block" style="color: #8a9aa8;">Nueva contraseña</label>
+                            <input id="pass-${usuario.id}" type="password" placeholder="Dejar vacío para no cambiar"
+                                class="w-full px-3 py-2 rounded-xl border outline-none text-sm"
+                                style="background-color: #243040; border-color: #4a6478; color: #e8e0d0;">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="guardarUsuario('${usuario.id}')"
+                                class="w-full px-3 py-2 rounded-xl text-sm font-semibold"
+                                style="background-color: #2a4a30; color: #e8e0d0;">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                `
+                lista.appendChild(div)
+            })
+        }
+
+        function toggleEditUsuario(id) {
+            document.getElementById(`edit-${id}`).classList.toggle("hidden")
+        }
+
+        async function guardarUsuario(id) {
+            const nuevoRol = document.getElementById(`rol-${id}`).value
+            const nuevaIglesia = document.getElementById(`iglesia-${id}`).value
+            const nuevaPass = document.getElementById(`pass-${id}`).value
+
+            await fetch(`${API}/configuracion/rol`, {
                 method: "PUT",
-                headers: headers,
-                body: JSON.stringify({ nombre_iglesia: nuevoNombre })
-            });
+                headers,
+                body: JSON.stringify({ usuario_id: id, nuevo_rol: nuevoRol })
+            })
 
-            if (res.ok) {
-                localStorage.setItem("iglesia", nuevoNombre);
-                document.getElementById("nombreIglesia").textContent = nuevoNombre;
-                alert("Nombre de la iglesia actualizado");
-            }
-        });
-
-        // Evento para cambiar contraseña
-        document.getElementById("btnCambiarPassword").addEventListener("click", async () => {
-            const pass = document.getElementById("config-new-password").value;
-            const confirm = document.getElementById("config-confirm-password").value;
-
-            if (!pass || pass !== confirm) {
-                alert("Las contraseñas no coinciden o están vacías");
-                return;
-            }
-
-            const res = await fetch(`${API}/configuracion/password`, {
+            await fetch(`${API}/configuracion/iglesia_usuario`, {
                 method: "PUT",
-                headers: headers,
-                body: JSON.stringify({ password: pass })
-            });
+                headers,
+                body: JSON.stringify({ usuario_id: id, nueva_iglesia: nuevaIglesia })
+            })
 
-            if (res.ok) {
-                alert("Contraseña actualizada correctamente");
-                document.getElementById("config-new-password").value = "";
-                document.getElementById("config-confirm-password").value = "";
+            if (nuevaPass) {
+                await fetch(`${API}/configuracion/password_usuario`, {
+                    method: "PUT",
+                    headers,
+                    body: JSON.stringify({ usuario_id: id, password: nuevaPass })
+                })
             }
-        });
+
+            alert("Usuario actualizado")
+            cargarUsuarios()
+        }
 
         document.getElementById("btnEnviar").addEventListener("click", async function() {
             const texto = document.getElementById("textoAnuncio").value
@@ -1545,6 +1561,7 @@
 
         // Iniciar
         cargarDashboard()
+
     </script>
     <img id="logo_iafcj" src="/static/logo_iafcj.png" style="display:none">
 </body>
